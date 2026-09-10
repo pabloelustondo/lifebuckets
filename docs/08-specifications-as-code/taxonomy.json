@@ -1,0 +1,246 @@
+{
+  "specificationVersion": 1,
+  "status": "proposed",
+  "scope": "Level-one taxonomy only; array order is display order. Not a Firestore seed or live tracker export.",
+  "source": "https://docs.google.com/document/d/1pyZGVL2YqpmdxDQg9-55JttuikpwEiBwciVU5AyCSfc/edit",
+  "categories": [
+    {
+      "code": "A",
+      "name": "Life",
+      "luckets": [
+        {
+          "code": "A0",
+          "name": "Awareness"
+        },
+        {
+          "code": "A1",
+          "name": "Mind"
+        },
+        {
+          "code": "A2",
+          "name": "Body"
+        },
+        {
+          "code": "A3",
+          "name": "We"
+        },
+        {
+          "code": "A4",
+          "name": "Plan"
+        },
+        {
+          "code": "A5",
+          "name": "Spirits"
+        },
+        {
+          "code": "A6",
+          "name": "Look"
+        },
+        {
+          "code": "A7",
+          "name": "LifeBuckets"
+        },
+        {
+          "code": "A8",
+          "name": "Reflect"
+        }
+      ]
+    },
+    {
+      "code": "B",
+      "name": "Things",
+      "luckets": [
+        {
+          "code": "B1",
+          "name": "Home"
+        },
+        {
+          "code": "B2",
+          "name": "Money"
+        },
+        {
+          "code": "B3",
+          "name": "Papers"
+        },
+        {
+          "code": "B4",
+          "name": "InfoIT"
+        },
+        {
+          "code": "B5",
+          "name": "Stuff"
+        },
+        {
+          "code": "B6",
+          "name": "Insurance"
+        },
+        {
+          "code": "B7",
+          "name": "Memories"
+        },
+        {
+          "code": "B8",
+          "name": "Subscriptions"
+        },
+        {
+          "code": "B9",
+          "name": "Investments"
+        }
+      ]
+    },
+    {
+      "code": "C",
+      "name": "Work",
+      "luckets": [
+        {
+          "code": "C1",
+          "name": "Work-Plan"
+        },
+        {
+          "code": "C2",
+          "name": "WorkPeople"
+        },
+        {
+          "code": "C3",
+          "name": "Work-Info"
+        },
+        {
+          "code": "C4",
+          "name": "Work-Items"
+        },
+        {
+          "code": "C5",
+          "name": "Career"
+        },
+        {
+          "code": "C6",
+          "name": "HR-Buro"
+        },
+        {
+          "code": "C7",
+          "name": "ElusDevInc"
+        },
+        {
+          "code": "C8",
+          "name": "BePro=Learn"
+        }
+      ]
+    },
+    {
+      "code": "D",
+      "name": "Friends",
+      "luckets": [
+        {
+          "code": "D1",
+          "name": "Friends+"
+        },
+        {
+          "code": "D2",
+          "name": "Church"
+        },
+        {
+          "code": "D3",
+          "name": "SocialNet"
+        },
+        {
+          "code": "D4",
+          "name": "Community"
+        }
+      ]
+    },
+    {
+      "code": "E",
+      "name": "Muse",
+      "luckets": [
+        {
+          "code": "E1",
+          "name": "Music"
+        },
+        {
+          "code": "E2",
+          "name": "Sing"
+        },
+        {
+          "code": "E3",
+          "name": "Guitar"
+        },
+        {
+          "code": "E4",
+          "name": "Lyrics"
+        },
+        {
+          "code": "E5",
+          "name": "Band"
+        },
+        {
+          "code": "E6",
+          "name": "Piano"
+        },
+        {
+          "code": "E7",
+          "name": "Songwriter"
+        },
+        {
+          "code": "E8",
+          "name": "Garage"
+        }
+      ]
+    },
+    {
+      "code": "F",
+      "name": "Beyond",
+      "luckets": [
+        {
+          "code": "F1",
+          "name": "AI-Learning"
+        },
+        {
+          "code": "F2",
+          "name": "AI-Projects"
+        },
+        {
+          "code": "F3",
+          "name": "AI-Articles"
+        },
+        {
+          "code": "F4",
+          "name": "LifeBuckets"
+        },
+        {
+          "code": "F5",
+          "name": "SDLC/ESA2"
+        },
+        {
+          "code": "F6",
+          "name": "IT-Cloud"
+        },
+        {
+          "code": "F7",
+          "name": "Academy"
+        },
+        {
+          "code": "F8",
+          "name": "Philosophy"
+        },
+        {
+          "code": "F9",
+          "name": "WorldPoliticsEconomics"
+        }
+      ]
+    },
+    {
+      "code": "G",
+      "name": "Fun",
+      "luckets": [
+        {
+          "code": "G1",
+          "name": "Travel"
+        },
+        {
+          "code": "G2",
+          "name": "New-Projects"
+        }
+      ]
+    }
+  ]
+}
