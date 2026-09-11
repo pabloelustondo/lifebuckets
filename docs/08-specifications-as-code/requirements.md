@@ -8,7 +8,7 @@ Source: [product baseline](../reference/product-baseline.md).
 | LB-001 | Preserve category names, lucket codes/names, and order in taxonomy.json. | First display |
 | LB-002 | Expand multiple categories in place, retaining all surrounding categories. | First display |
 | LB-003 | Full-width rows without progressive indentation or horizontal clipping at 320px. | First display |
-| LB-004 | Row order: ID, condition square, action circle, name, optional details. | First display |
+| LB-004 | Row order: ID, condition circle, action square, name, optional details. | First display |
 | LB-005 | Both font-sized shapes have thin black outlines. | First display |
 | LB-006 | Condition and action remain independent, with distinguishable shapes and accessible labels. | First display; final meanings pending |
 | LB-007 | Compact header contains only LifeBuckets, avatar P, and open date. | First display; no-day state pending |
@@ -17,6 +17,8 @@ Source: [product baseline](../reference/product-baseline.md).
 | LB-010 | Previously loaded shell and owner data reopen offline; missing cache is explicit. | Offline increment |
 | LB-011 | Distinguish pending local changes from server acknowledgement and rejection. | When writes enabled |
 | LB-012 | Enforce authenticated ownership on reads and writes, including offline session boundaries. | Connected data |
+
+| LB-013 | Category row replaces count/chevron with a right-aligned matrix: condition circles above action squares, one column per lucket (maximum 10), no aggregation. | Sprint 003 |
 
 ## Supporting constraints
 
@@ -31,6 +33,6 @@ Source: [product baseline](../reference/product-baseline.md).
 
 ## Verification
 
-[Acceptance scenarios](acceptance/README.md) map all twelve IDs to planned checks.
+[Acceptance scenarios](acceptance/README.md) map requirement IDs to planned checks.
 [Taxonomy JSON](taxonomy.json) defines only the level-one code/name snapshot.
 No schema here finalizes status enums, authentication, history storage, or conflict resolution.
