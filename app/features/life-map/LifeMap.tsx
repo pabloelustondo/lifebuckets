@@ -1,21 +1,23 @@
 import {useState} from 'react';
 import {displayDay,type Row,type Status,type View} from '../../data/model';
 import './map.css';
+import ColorPicker from './ColorPicker';
+import type {ColorEdit} from '../../data/local-colors';
 
 export function StatusIndicator({value,kind,available=true}:{value:Status;kind:'Condition'|'Action';available?:boolean}) {
  const meaning=!available?'not recorded for this day':value===null?'not recorded':value==='unknown'?'unknown value':value+' (illustrative color; meaning pending)';
  return <span role="img" aria-label={kind+': '+meaning} title={kind+': '+meaning}
    className={'indicator '+(kind==='Action'?'circle ':'square ')+(value??'unset')}/>;
 }
-function LucketRow({row}:{row:Row}) {
+function LucketRow({row,openDay,onEdit,editingDisabled}:{row:Row;openDay:string|null;onEdit:(edit:ColorEdit)=>Promise<void>;editingDisabled?:boolean}) {
  return <li className="lucket-row" data-code={row.itemId}>
   <span className="row-code">{row.itemId}</span>
-  <StatusIndicator kind="Condition" value={row.status}/>
-  <StatusIndicator kind="Action" value={row.actionStatus} available={row.actionAvailable}/>
+  <ColorPicker rowId={row.id} name={row.name} kind="Condition" value={row.status} openDay={openDay} onEdit={onEdit} disabled={editingDisabled}/>
+  <ColorPicker rowId={row.id} name={row.name} kind="Action" value={row.actionStatus} available={row.actionAvailable} openDay={openDay} onEdit={onEdit} disabled={editingDisabled}/>
   <div className="row-content"><span className="row-name">{row.name}</span>{row.description&&<p className="row-detail">{row.description}</p>}</div>
  </li>;
 }
-export default function LifeMap({view,onSignOut}:{view:View;onSignOut:()=>void}) {
+export default function LifeMap({view,onSignOut,onEdit,editingDisabled}:{view:View;onSignOut:()=>void;onEdit:(edit:ColorEdit)=>Promise<void>;editingDisabled?:boolean}) {
  const [expanded,setExpanded]=useState<Set<string>>(new Set());
  const [menu,setMenu]=useState(false);
  function toggle(id:string){setExpanded(old=>{const next=new Set(old);if(next.has(id))next.delete(id);else next.add(id);return next})}
@@ -34,7 +36,7 @@ export default function LifeMap({view,onSignOut}:{view:View;onSignOut:()=>void})
       <button className="category-row" data-code={category.itemId} aria-label={category.name} aria-expanded={open} aria-controls={'rows-'+category.id} onClick={()=>toggle(category.id)}>
        <span>{category.itemId}</span><span>{category.name}</span><span className="count">{children.length}</span><span aria-hidden="true">{open?'⌄':'›'}</span>
       </button>
-      <ul id={'rows-'+category.id} hidden={!open}>{children.map(row=><LucketRow key={row.id} row={row}/>)}</ul>
+      <ul id={'rows-'+category.id} hidden={!open}>{children.map(row=><LucketRow key={row.id} row={row} openDay={view.openDay} onEdit={onEdit} editingDisabled={editingDisabled}/>)}</ul>
     </section>
    })}
   </div>}

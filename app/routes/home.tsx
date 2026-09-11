@@ -9,7 +9,7 @@ function Connected({client}:{client:Client}) {
  const [error,setError]=useState(''),[busy,setBusy]=useState(false);
  const [online,setOnline]=useState(true);
  useEffect(()=>{const update=()=>setOnline(navigator.onLine);update();window.addEventListener('online',update);window.addEventListener('offline',update);return()=>{window.removeEventListener('online',update);window.removeEventListener('offline',update)}},[]);
- async function signOut(){setError('');try{await client.logout()}catch{setError('Device cleanup could not finish. Close other LifeBuckets tabs, then retry.')}}
+ async function signOut(){if((state.pending||state.localError)&&!window.confirm('Sign out and discard local color changes? They have not been sent to the server.'))return;setError('');try{await client.logout()}catch{setError('Device cleanup could not finish. Close other LifeBuckets tabs, then retry.')}}
  async function submit(event:React.FormEvent<HTMLFormElement>){
   event.preventDefault();setBusy(true);setError('');
   const values=new FormData(event.currentTarget);
@@ -26,14 +26,17 @@ function Connected({client}:{client:Client}) {
    <label className="trust"><input type="checkbox" name="trusted"/>Remember data on this trusted device</label>
    <button className="primary" disabled={busy}>{busy?'Signing in…':'Sign in'}</button></form>
    <p className="fine">Local review · synthetic accounts only</p>
-  </section>:state.phase==='ready'&&state.view?<LifeMap key={state.uid} view={state.view} onSignOut={signOut}/>:
+  </section>:state.phase==='ready'&&state.view?<LifeMap key={state.uid} view={state.view} onSignOut={signOut} onEdit={client.setLocalColor} editingDisabled={!!state.localError}/>:
   <section className="state-panel"><h1>LifeBuckets</h1><p role="status">{state.message||(state.phase==='loading'?'Loading your life map…':'Unable to load your map.')}</p>{state.phase==='error'&&<button className="plain-button" onClick={signOut}>Sign out and retry</button>}{state.phase==='cleanup'&&<button className="plain-button" onClick={signOut}>Retry device cleanup</button>}</section>}
   <OfflineShell/>
+  {state.localError&&<p role="alert" className="notice error">{state.localError}</p>}
   {error&&<p className="notice error" role="alert">{error}</p>}
   {state.uid&&state.phase==='ready'&&<footer className="connection-note" aria-live="polite">
     <span>{online?(state.cached?'Cached data · waiting for server':'Server data received'):'Offline · previously loaded data'}</span>
     <span>{state.trusted?'Remembered on this trusted device':'Session only · offline restart unavailable'}</span>
-    {state.view?.fixture&&<span>Sample data · colors are illustrative</span>}
+    <span>{state.pending?`${state.pending} local color change${state.pending===1?'':'s'} · not sent to server`:'Color changes save locally · server sync is not connected'}</span>
+    {!state.trusted&&<span>Local changes last only for this session</span>}
+    {state.view?.fixture&&<span>Sample data · color meanings are not assigned</span>}
   </footer>}
  </main>;
 }

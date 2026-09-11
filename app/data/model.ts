@@ -1,4 +1,6 @@
-export type Status = 'yellow' | 'red' | 'blue' | 'green' | 'unknown' | null;
+export const colors = ['blue','green','white','yellow','red'] as const;
+export type Color = typeof colors[number];
+export type Status = Color | 'unknown' | null;
 export interface Row {
   id: string; itemId: string; category: string; bucket: string; subBucket: string; subSubBucket: string;
   name: string; kind: 'category' | 'lucket'; sortOrder: number;
@@ -18,7 +20,7 @@ export function displayDay(value: string): string {
 }
 function status(value: unknown): Status {
   if(value == null)return null;
-  return ['yellow','red','blue','green'].includes(String(value)) ? value as Status : 'unknown';
+  return colors.includes(value as Color) ? value as Status : 'unknown';
 }
 function text(data: Record<string,unknown>, key: string, optional=false): string {
   const value=data[key];

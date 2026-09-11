@@ -2,10 +2,11 @@ import {initializeApp,deleteApp,type FirebaseApp} from 'firebase/app';
 import {initializeAuth,inMemoryPersistence,browserLocalPersistence,connectAuthEmulator,signInWithEmailAndPassword,onAuthStateChanged,signOut,type Auth} from 'firebase/auth';
 import {getFirestore,initializeFirestore,persistentLocalCache,persistentMultipleTabManager,memoryLocalCache,getDocsFromCache,getPersistentCacheIndexManager,connectFirestoreEmulator,clearIndexedDbPersistence,terminate,onSnapshot,doc,collection,query,where,type Firestore} from 'firebase/firestore';
 import {makeView,type View} from './model';
+import {LocalColors,clearLocalColors,type ColorEdit} from './local-colors';
 
 export interface State {
  phase:'signed-out'|'loading'|'ready'|'error'|'cleanup';
- view?:View;uid?:string;message?:string;cached?:boolean;trusted:boolean;
+ view?:View;uid?:string;message?:string;cached?:boolean;trusted:boolean;pending?:number;localError?:string;
 }
 const TRUST='lifebuckets.trusted',CLEANUP='lifebuckets.cleanup',EPOCH='lifebuckets.epoch';
 let state:State={phase:'signed-out',trusted:false};
@@ -13,7 +14,7 @@ const listeners=new Set<()=>void>();
 export const subscribe=(fn:()=>void)=>{listeners.add(fn);return()=>{listeners.delete(fn)}};
 export const snapshot=()=>state;
 function emit(next:State){state=next;listeners.forEach(fn=>fn())}
-interface Runtime {app:FirebaseApp;auth:Auth;db:Firestore;stops:(()=>void)[];trusted:boolean;epoch:string|null}
+interface Runtime {app:FirebaseApp;auth:Auth;db:Firestore;stops:(()=>void)[];trusted:boolean;epoch:string|null;colors?:LocalColors;refresh?:()=>void}
 let runtime:Runtime|undefined,generation=0,bootPromise:Promise<void>|undefined,disposePromise:Promise<Firestore|undefined>|undefined;
 function stopReads(){++generation;runtime?.stops.splice(0).forEach(fn=>fn())}
 function blocked(){return localStorage.getItem(CLEANUP)!==null}
@@ -40,8 +41,10 @@ async function createRuntime(trusted:boolean){
   if(runtime!==r)return;
   // Keep the auth listener, replace only the owner listeners.
   r.stops.splice(1).forEach(fn=>fn());const token=++generation;
+  r.colors=undefined;r.refresh=undefined;
   if(!user){emit({phase:'signed-out',trusted:r.trusted});return}
   if(blocked()||r.epoch!==localStorage.getItem(EPOCH)){void dispose();return}
+  r.colors=new LocalColors(user.uid,r.trusted?localStorage:undefined);
   emit({phase:'loading',uid:user.uid,trusted:r.trusted});
   let profile:Record<string,unknown>|undefined,records:{id:string;data:Record<string,unknown>}[]=[];
   let profileSeen=false,rowsSeen=false,profileCached=true,rowsCached=true,timedOut=false,readFailed=false;
@@ -56,8 +59,16 @@ async function createRuntime(trusted:boolean){
    }
    // An empty cached query cannot establish that an owner has no rows on the server.
    if(records.length===0&&rowsCached){emit({phase:navigator.onLine&&!timedOut?'loading':'error',uid:user.uid,trusted:r.trusted,message:navigator.onLine&&!timedOut?'Waiting for your hierarchy…':'Hierarchy data is not available offline. Reconnect to load it.'});return}
-   try{emit({phase:'ready',uid:user.uid,trusted:r.trusted,cached:profileCached||rowsCached,view:makeView(user.uid,profile,records)})}catch(e){fail(e)}
+   try{
+    const base=makeView(user.uid,profile,records);
+    let view=base,pending=0,localError:string|undefined;
+    try{view=r.colors!.project(base);pending=r.colors!.pending().length}
+    catch{localError='Local changes could not be read. Editing is unavailable; stored changes have not been cleared.'}
+    emit({phase:'ready',uid:user.uid,trusted:r.trusted,cached:profileCached||rowsCached,view,pending,localError});
+   }catch(e){fail(e)}
   };
+  r.refresh=update;
+  r.stops.push(r.colors.subscribe(update));
   r.stops.push(onSnapshot(doc(db,'users',user.uid),{includeMetadataChanges:true},s=>{profile=s.data();profileSeen=true;profileCached=s.metadata.fromCache;update()},fail));
   r.stops.push(onSnapshot(query(collection(db,'luckets'),where('ownerId','==',user.uid)),{includeMetadataChanges:true},s=>{records=s.docs.map(d=>({id:d.id,data:d.data()}));rowsSeen=true;rowsCached=s.metadata.fromCache;update()},fail));
   const online=()=>update();window.addEventListener('offline',online);window.addEventListener('online',online);
@@ -84,6 +95,7 @@ async function cleanup(){
    catch(e){failure=e;await new Promise(r=>setTimeout(r,250))}
   }
   if(failure)throw failure;
+  clearLocalColors(localStorage);
   localStorage.removeItem(TRUST);localStorage.removeItem(CLEANUP);
   emit({phase:'signed-out',trusted:false});
  }catch{
@@ -101,6 +113,18 @@ export async function login(email:string,password:string,trusted:boolean){
    if(!runtime)throw Error('Session unavailable');
    await signInWithEmailAndPassword(runtime.auth,email,password);
   }catch(e){await dispose();localStorage.removeItem(TRUST);emit({phase:'signed-out',trusted:false});throw e}
+ });
+}
+export async function setLocalColor(input:ColorEdit):Promise<void>{
+ const r=runtime,uid=state.uid,token=generation;
+ await exclusive(async()=>{
+  if(!r||runtime!==r||generation!==token||!uid||state.uid!==uid||state.phase!=='ready'||
+   !state.view||state.localError||blocked()||r.epoch!==localStorage.getItem(EPOCH)||!r.colors)
+   throw Error('Your session changed or local storage is unavailable. Reopen the map to try again.');
+  try{r.colors.edit(input,state.view)}catch{
+   throw Error('Could not save this color locally. Your previous saved choice is unchanged. Please try again.');
+  }
+  r.refresh?.();
  });
 }
 export async function logout(){

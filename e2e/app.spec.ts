@@ -23,9 +23,9 @@ async function signout(page:Page){
 }
 test('map layout, exact taxonomy, keyboard and independent categories',async({page})=>{
  await login(page,'colors');await ready(page);
- await mkdir('docs/09-build-and-test/sprint-001-evidence',{recursive:true});
+ await mkdir('docs/09-build-and-test/sprint-002-evidence',{recursive:true});
  await page.setViewportSize({width:420,height:920});
- await page.screenshot({path:'docs/09-build-and-test/sprint-001-evidence/collapsed-420.png',fullPage:true});
+ await page.screenshot({path:'docs/09-build-and-test/sprint-002-evidence/collapsed-420.png',fullPage:true});
  await page.getByRole('button',{name:'Work',exact:true}).focus();
  await page.keyboard.press('Enter');
  await page.getByRole('button',{name:'Life',exact:true}).click();
@@ -45,7 +45,7 @@ test('map layout, exact taxonomy, keyboard and independent categories',async({pa
   await page.setViewportSize({width,height:1000});
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await expect(page.locator('[data-code="C8"]')).toBeVisible();
-  await page.screenshot({path:'docs/09-build-and-test/sprint-001-evidence/expanded-'+width+'.png',fullPage:true});
+  await page.screenshot({path:'docs/09-build-and-test/sprint-002-evidence/expanded-'+width+'.png',fullPage:true});
  }
  await page.getByRole('button',{name:'Work',exact:true}).click();
  await expect(page.getByRole('button',{name:'Life',exact:true})).toHaveAttribute('aria-expanded','true');
@@ -80,7 +80,7 @@ test('trusted profile survives a real browser restart offline',async({},info)=>{
   await expect(resumed.locator('time')).toHaveAttribute('datetime','2026-09-09');
   await expect(resumed.getByText('Offline · previously loaded data',{exact:true})).toBeVisible();
   await resumed.getByRole('button',{name:'Work',exact:true}).click();
-  await resumed.screenshot({path:'docs/09-build-and-test/sprint-001-evidence/offline-restart.png',fullPage:true});
+  await resumed.screenshot({path:'docs/09-build-and-test/sprint-002-evidence/offline-restart.png',fullPage:true});
   await resumed.clock.setFixedTime(new Date('2026-09-20T12:00:00Z'));await resumed.reload();
   await expect(resumed.locator('time')).toHaveAttribute('datetime','2026-09-09');
   await context.setOffline(false);
