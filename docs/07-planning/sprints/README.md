@@ -4,7 +4,7 @@
 
 | Sprint | Goal | State | Plan / Tasks approval |
 | --- | --- | --- | --- |
-| [001 — Read-only life map](sprint-001-read-only-life-map/01-sprint-plan.md) | Authenticated map, persisted date, offline restart. | PROPOSED | Neither committed; Tasks not drafted. |
+| [001 — Read-only life map](sprint-001-read-only-life-map/01-sprint-plan.md) | Authenticated map, persisted date, offline restart. | TASKS PROPOSED | Plan/dependencies: 83f4e59; [Tasks](sprint-001-read-only-life-map/05-sprint-plan-tasks.md) await separate commit. |
 
 Acceptance and evidence links will be added as actual work proceeds.
 
