@@ -1,0 +1,17 @@
+
+=== Deploying to 'lifebuckets-bd43d'...
+
+i  deploying hosting
+i  hosting[lifebuckets-bd43d]: beginning deploy...
+i  hosting[lifebuckets-bd43d]: found 12 files in build/client
+i  hosting: upload complete
+✔  hosting[lifebuckets-bd43d]: file upload complete
+i  hosting[lifebuckets-bd43d]: finalizing version...
+✔  hosting[lifebuckets-bd43d]: version finalized
+i  hosting[lifebuckets-bd43d]: releasing new version...
+✔  hosting[lifebuckets-bd43d]: release complete
+
+✔  Deploy complete!
+
+Project Console: https://console.firebase.google.com/project/lifebuckets-bd43d/overview
+Hosting URL: https://lifebuckets-bd43d.web.app

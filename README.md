@@ -1,11 +1,25 @@
 # LifeBuckets
 
-Start with the [SDLC2 documentation](docs/README.md) and [agent rules](AGENTS.md).
+A read-only life map with an explicit business day and trusted-device offline access.
+Sprint 001 is implemented locally; independent review and human acceptance remain pending.
 
-This repository contains the development methodology, reusable templates, and proposed product documents.
-Start with [intent](docs/02-intent/intent.md), [requirements](docs/08-specifications-as-code/requirements.md), and [open decisions](docs/07-planning/open-decisions.md).
-Product drafts await review; no implementation sprint or deployment environment is approved here.
+## Run locally
 
-Define intent and evidence, approve a Sprint Plan, approve component-scoped Tasks, authorize implementation, build and verify, review, then make explicit release decisions.
+Use Node 22.12+ or Node 24, Java 21, and npm.
+Follow the [setup guide](docs/09-build-and-test/sprint-001-setup.md), then run:
 
-Documentation approval is Pablo's commit of the reviewed contents. Agents do not commit or publish changes.
+```sh
+npm run local
+```
+
+Open http://127.0.0.1:4173 and sign in with the synthetic account owner@example.test / review-only-123.
+Use colors@example.test for illustrative indicators; the same local password applies.
+No live Firebase deployment or personal-data import is configured.
+
+## Review
+
+- [Delivered scope](docs/09-build-and-test/sprint-001-delivered-scope.md)
+- [Test report](docs/09-build-and-test/sprint-001-test-report.md)
+- [SDLC2 documentation](docs/README.md) and [agent rules](AGENTS.md)
+
+Agents do not commit, push, merge, or deploy this work.

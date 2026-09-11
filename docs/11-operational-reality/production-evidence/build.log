@@ -1,0 +1,44 @@
+
+> build:production
+> node scripts/check-production.mjs && react-router build --mode hosted && node e2e/build-shell.mjs
+
+Production target verified: lifebuckets-bd43d
+Using Vite Environment API
+vite v8.3.0 building client environment for hosted...
+transforming...
+✓ 106 modules transformed.
+rendering chunks...
+computing gzip size...
+build/client/.vite/manifest.json                   1.69 kB │ gzip:   0.43 kB
+build/client/assets/home-BcnDhnil.css              3.60 kB │ gzip:   1.33 kB
+build/client/assets/root-DunYk5D4.css              6.41 kB │ gzip:   2.22 kB
+build/client/assets/model-DeEBu02C.js              2.26 kB │ gzip:   1.02 kB
+build/client/assets/home-C4aFxdeJ.js              10.00 kB │ gzip:   3.65 kB
+build/client/assets/root-fP2iwPdn.js              10.81 kB │ gzip:   4.32 kB
+build/client/assets/errorBoundaries-Bt6A9-7f.js   32.12 kB │ gzip:  11.20 kB
+build/client/assets/jsx-runtime-DiUEsT7u.js       86.82 kB │ gzip:  28.93 kB
+build/client/assets/entry.client-Bkiv2t8u.js     214.71 kB │ gzip:  67.17 kB
+build/client/assets/client-k82KIhVt.js           619.81 kB │ gzip: 182.78 kB
+
+✓ built in 247ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+vite v8.3.0 building ssr environment for hosted...
+transforming...
+✓ 6 modules transformed.
+rendering chunks...
+
+✓ 1 asset cleaned from React Router server build.
+build/server/assets/server-build-DunYk5D4.css
+
+computing gzip size...
+build/server/.vite/manifest.json               0.22 kB │ gzip: 0.15 kB
+build/server/assets/server-build-DunYk5D4.css  6.41 kB │ gzip: 2.22 kB
+build/server/index.js                          5.30 kB │ gzip: 1.81 kB
+
+✓ built in 36ms
+SPA Mode: Generated build/client/index.html
+Public app shell generated: e82c9334463d3c1c

@@ -4,9 +4,9 @@
 
 | Sprint | Goal | State | Plan / Tasks approval |
 | --- | --- | --- | --- |
-| [001 — Read-only life map](sprint-001-read-only-life-map/01-sprint-plan.md) | Authenticated map, persisted date, offline restart. | TASKS PROPOSED | Plan/dependencies: 83f4e59; [Tasks](sprint-001-read-only-life-map/05-sprint-plan-tasks.md) await separate commit. |
+| [001 — Read-only life map](sprint-001-read-only-life-map/01-sprint-plan.md) | Authenticated map, persisted date, offline restart. | IMPLEMENTED; REVIEW PENDING | Plan: 83f4e59; Tasks: b967e41. |
 
-Acceptance and evidence links will be added as actual work proceeds.
+[Sprint 001 evidence](../../09-build-and-test/sprint-001-test-report.md) and [review handoff](../../10-review-and-release/sprint-001-review-handoff.md) are available.
 
 ## Create a sprint package
 
