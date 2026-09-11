@@ -14,7 +14,8 @@
     "test:e2e": "node e2e/run.mjs browser",
     "test:browser": "playwright test",
     "preview": "node e2e/serve.mjs",
-    "local": "node e2e/run.mjs review"
+    "local": "node e2e/run.mjs review",
+    "build:production": "node scripts/check-production.mjs && react-router build --mode hosted && node e2e/build-shell.mjs"
   },
   "dependencies": {
     "react": "19.3.0",

@@ -1,7 +1,10 @@
 import {initializeApp,deleteApp,type FirebaseApp} from 'firebase/app';
-import {initializeAuth,inMemoryPersistence,browserLocalPersistence,connectAuthEmulator,signInWithEmailAndPassword,onAuthStateChanged,signOut,type Auth} from 'firebase/auth';
+import {initializeAuth,inMemoryPersistence,browserLocalPersistence,connectAuthEmulator,signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,browserPopupRedirectResolver,onAuthStateChanged,signOut,type Auth} from 'firebase/auth';
 import {getFirestore,initializeFirestore,persistentLocalCache,persistentMultipleTabManager,memoryLocalCache,getDocsFromCache,getPersistentCacheIndexManager,connectFirestoreEmulator,clearIndexedDbPersistence,terminate,onSnapshot,doc,collection,query,where,type Firestore} from 'firebase/firestore';
 import {makeView,type View} from './model';
+import {config} from './config';
+export const hosted=config.hosted;
+export const signInMethod=config.signIn;
 import {LocalColors,clearLocalColors,type ColorEdit} from './local-colors';
 
 export interface State {
@@ -23,12 +26,12 @@ async function exclusive<T>(fn:()=>Promise<T>):Promise<T>{
  return navigator.locks.request('lifebuckets-session',fn);
 }
 async function createRuntime(trusted:boolean){
- if(!['127.0.0.1','localhost'].includes(location.hostname))throw Error('This build requires a local review host.');
+ if(!config.hosted&&!['127.0.0.1','localhost'].includes(location.hostname))throw Error('This build requires a local review host.');
  if(trusted){try{await probeStorage()}catch{throw Error('Persistence is unavailable. Uncheck remember data and sign in for this session.')}}
- const app=initializeApp({projectId:'demo-lifebuckets',apiKey:'demo-key',authDomain:'localhost',appId:'demo-app'},'lifebuckets');
+ const app=initializeApp(config.firebase,'lifebuckets');
  const auth=initializeAuth(app,{persistence:trusted?browserLocalPersistence:inMemoryPersistence});
- connectAuthEmulator(auth,'http://127.0.0.1:9099',{disableWarnings:true});
- const db=initializeFirestore(app,{localCache:trusted?persistentLocalCache({tabManager:persistentMultipleTabManager()}):memoryLocalCache()});connectFirestoreEmulator(db,'127.0.0.1',8080);
+ if(!config.hosted)connectAuthEmulator(auth,'http://127.0.0.1:9099',{disableWarnings:true});
+ const db=initializeFirestore(app,{localCache:trusted?persistentLocalCache({tabManager:persistentMultipleTabManager()}):memoryLocalCache()});if(!config.hosted)connectFirestoreEmulator(db,'127.0.0.1',8080);
  const r:Runtime={app,auth,db,stops:[],trusted,epoch:localStorage.getItem(EPOCH)};
  runtime=r;
  if(trusted){
@@ -87,7 +90,7 @@ async function cleanup(){
  const old=await dispose();
  // Reopening after an interrupted cleanup must clear the same named database.
  let db=old,app:FirebaseApp|undefined;
- if(!db){app=initializeApp({projectId:'demo-lifebuckets',apiKey:'demo-key',appId:'demo-app'},'lifebuckets');db=getFirestore(app);await terminate(db)}
+ if(!db){app=initializeApp(config.firebase,'lifebuckets');db=getFirestore(app);await terminate(db)}
  try{
   let failure:unknown;
   for(let attempt=0;attempt<2;attempt++){
@@ -111,7 +114,8 @@ export async function login(email:string,password:string,trusted:boolean){
   try{
    await createRuntime(trusted);
    if(!runtime)throw Error('Session unavailable');
-   await signInWithEmailAndPassword(runtime.auth,email,password);
+   if(config.signIn==='google')await signInWithPopup(runtime.auth,new GoogleAuthProvider(),browserPopupRedirectResolver);
+   else await signInWithEmailAndPassword(runtime.auth,email,password);
   }catch(e){await dispose();localStorage.removeItem(TRUST);emit({phase:'signed-out',trusted:false});throw e}
  });
 }
