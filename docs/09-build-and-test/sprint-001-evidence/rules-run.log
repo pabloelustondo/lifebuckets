@@ -1,0 +1,81 @@
+
+> test:rules
+> node e2e/run.mjs rules
+
+i  emulators: Starting emulators: auth, firestore
+i  emulators: Detected demo project ID "demo-lifebuckets", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
+✔  firestore: Firestore Emulator was started in standard edition.
+✔  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: node e2e/inside.mjs rules
+✔ owner reads its profile and filtered hierarchy (453.457ms)
+✔ cross-owner and unauthenticated reads fail (33.937125ms)
+[2026-09-11T02:52:08.862Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de719 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'create' @ L11, false for 'update' @ L11
+[2026-09-11T02:52:08.869Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de71a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'update' @ L11
+[2026-09-11T02:52:08.874Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de71b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'delete' @ L11
+[2026-09-11T02:52:08.879Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de71c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'create' @ L11, false for 'update' @ L11
+[2026-09-11T02:52:08.883Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de71d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'update' @ L11
+[2026-09-11T02:52:08.887Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de71e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'delete' @ L11
+[2026-09-11T02:52:08.892Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de71f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'create' @ L11, false for 'update' @ L11
+[2026-09-11T02:52:08.896Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de720 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'update' @ L11
+[2026-09-11T02:52:08.900Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de721 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'delete' @ L11
+[2026-09-11T02:52:08.911Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de722 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'create' @ L11, false for 'update' @ L11
+[2026-09-11T02:52:08.915Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de723 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'update' @ L11
+[2026-09-11T02:52:08.919Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de724 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'delete' @ L11
+[2026-09-11T02:52:08.923Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de725 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'create' @ L11, false for 'update' @ L11
+[2026-09-11T02:52:08.927Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de726 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'update' @ L11
+[2026-09-11T02:52:08.930Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de727 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'delete' @ L11
+[2026-09-11T02:52:08.934Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de728 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'create' @ L11, false for 'update' @ L11
+[2026-09-11T02:52:08.938Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de729 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'update' @ L11
+[2026-09-11T02:52:08.941Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de72a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'delete' @ L11
+[2026-09-11T02:52:08.951Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de72b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'create' @ L11, false for 'update' @ L11
+[2026-09-11T02:52:08.954Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de72c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'update' @ L11
+[2026-09-11T02:52:08.958Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de72d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'delete' @ L11
+[2026-09-11T02:52:08.962Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de72e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'create' @ L11, false for 'update' @ L11
+[2026-09-11T02:52:08.964Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de72f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'update' @ L11
+[2026-09-11T02:52:08.967Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de730 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'delete' @ L11
+[2026-09-11T02:52:08.971Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de731 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'create' @ L11, false for 'update' @ L11
+[2026-09-11T02:52:08.974Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de732 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'update' @ L11
+[2026-09-11T02:52:08.977Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x816de733 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+false for 'delete' @ L11
+✔ all business-data writes denied even to the owner (127.092583ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 717.356959
+✔  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
