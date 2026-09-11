@@ -13,7 +13,7 @@ Status: PROPOSED; reviewed with the Sprint 002 Plan.
 
 Operation: `setLocalColor({rowId, field, color, openDay})` returns a local-save result.
 The session supplies owner identity; UI input cannot select another owner.
-`field` is `status` or `actionStatusDay`; color is one of the seven palette values.
+`field` is `status` or `actionStatusDay`; color is blue, green, white, yellow, or red.
 Validate row ownership/existence and ensure the active session has not changed before saving.
 For action edits, require a valid openDay matching the current view and save actionDay with it.
 Condition changes have no date dependency and must not modify action fields.
@@ -36,7 +36,7 @@ Future sync may read pending changes; this sprint neither transmits nor acknowle
 Project local overrides over each incoming server view, keyed by owner and stable row ID.
 Apply action overrides only to their matching openDay; do not erase edits for another day.
 Retain pending edits for temporarily absent rows without recreating rows in the visible hierarchy.
-Extend the status parser for white/purple/black; unknown server values remain unknown.
+Extend the status parser for white; unsupported server values remain unknown.
 On storage failure, avoid replacing readable server data with a misleading empty local state.
 Owner changes detach listeners and in-memory state before another owner can render.
 Explicit sign-out/device cleanup clears local edits as well as the existing cache.
