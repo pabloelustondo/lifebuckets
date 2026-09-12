@@ -18,7 +18,7 @@ Source: [product baseline](../reference/product-baseline.md).
 | LB-011 | Distinguish pending local changes from server acknowledgement and rejection. | When writes enabled |
 | LB-012 | Enforce authenticated ownership on reads and writes, including offline session boundaries. | Connected data |
 
-| LB-013 | Category row replaces count/chevron with a right-aligned matrix: condition circles above action squares, one column per lucket (maximum 10), no aggregation. | Sprint 003 |
+| LB-013 | Category row replaces count/chevron with a left-aligned matrix in a shared right-hand area: condition circles above action squares, one column per lucket (maximum 10), no aggregation. | Sprint 003 |
 
 ## Supporting constraints
 

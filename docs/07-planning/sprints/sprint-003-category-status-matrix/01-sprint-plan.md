@@ -12,7 +12,7 @@ Show individual colors without averages, rankings, maxima, minima, or a derived 
 ## Confirmed design
 
 - Replace the category count and chevron with a compact two-row matrix.
-- Right-align each matrix to the category's inner right edge, including shorter categories.
+- Left-align all matrices within a shared 128px area on the right, including shorter categories.
 - One column per lucket, in the same order as the expanded list; no filler columns.
 - Up to 10 columns by design; existing categories contain 2–9 luckets.
 - Upper row: condition circles. Lower row: action squares.
@@ -33,7 +33,7 @@ Use the existing owner-scoped view with local overrides; introduce no category s
 - Every circle/square matches the corresponding expanded lucket, including pending local edits.
 - Colors preserve lucket order; no sorting by color or severity.
 - Null, unavailable action, and unknown values are not falsely shown as explicit white.
-- Matrices share the same right edge; no count or chevron remains.
+- Matrices share the same left edge; no count or chevron remains.
 - At 320px and desktop widths, labels wrap without clipping or displacing the matrix offscreen.
 - Keyboard expansion, visible focus, and aria-expanded remain functional.
 - Screen-reader text identifies each lucket and its separate condition/action values.

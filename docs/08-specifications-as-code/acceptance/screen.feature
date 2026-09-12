@@ -52,7 +52,7 @@ Feature: Scan and explore the life map
   Scenario: See every lucket without an aggregate
     Given a category with between 1 and 10 luckets having independent condition and action colors
     When its category row is displayed
-    Then its right-aligned matrix has one column per lucket in expanded-list order
+    Then its left-aligned matrix in a shared right-hand area has one column per lucket in expanded-list order
     And circles above squares show the corresponding condition and available action values
     And the count and chevron are absent
     And no average, maximum, minimum, or derived category color is computed

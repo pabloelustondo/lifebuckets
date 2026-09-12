@@ -33,7 +33,7 @@ test('matrix boundaries, semantic states, ordering and responsive alignment',asy
   for(const width of [320,1440]){
    await page.setViewportSize({width,height:1000});
    const b=await page.locator('.category-row[data-code="B"] .category-matrix').boundingBox(),box=await c.locator('.category-matrix').boundingBox();
-   expect(Math.abs(b!.x+b!.width-box!.x-box!.width)).toBeLessThan(1);
+   expect(Math.abs(b!.x-box!.x)).toBeLessThan(1);
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
    const mark=await c.locator('.indicator').first().boundingBox();expect(mark!.width).toBe(11);
    await page.screenshot({path:'docs/09-build-and-test/sprint-003-evidence/boundaries-'+width+'.png',fullPage:true});

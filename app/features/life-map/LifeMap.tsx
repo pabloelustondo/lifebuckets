@@ -11,9 +11,9 @@ export function StatusIndicator({value,kind,available=true}:{value:Status;kind:'
 }
 function LucketRow({row,openDay,onEdit,editingDisabled}:{row:Row;openDay:string|null;onEdit:(edit:ColorEdit)=>Promise<void>;editingDisabled?:boolean}) {
  return <li className="lucket-row" data-code={row.itemId}>
-  <span className="row-code">{row.itemId}</span>
   <ColorPicker rowId={row.id} name={row.name} kind="Condition" value={row.status} openDay={openDay} onEdit={onEdit} disabled={editingDisabled}/>
   <ColorPicker rowId={row.id} name={row.name} kind="Action" value={row.actionStatus} available={row.actionAvailable} openDay={openDay} onEdit={onEdit} disabled={editingDisabled}/>
+  <span className="row-code">{row.itemId}</span>
   <div className="row-content"><span className="row-name">{row.name}</span>{row.description&&<p className="row-detail">{row.description}</p>}</div>
  </li>;
 }

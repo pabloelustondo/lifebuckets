@@ -13,8 +13,8 @@ Colors are illustrative, not personal data, seed values, or verified application
 ## Refinements that supersede the image
 
 - Remove the category count and chevron; the entire row still expands the category.
-- Align each matrix to the inner right edge, including categories with fewer luckets.
-- Use only actual lucket columns, up to 10; do not reserve blank columns.
+- Align every first column to the same left edge within a 128px right-hand area.
+- Use only actual lucket columns, up to 10; leave unused space unmarked.
 - Keep condition circles above action squares, one pair per lucket in list order.
 - Keep marks tightly spaced, with a thin black border and the existing five colors.
 - The date, example-colors caption, and legend are context, not new Sprint 003 requirements.

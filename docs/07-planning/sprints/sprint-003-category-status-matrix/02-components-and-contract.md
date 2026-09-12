@@ -25,7 +25,7 @@ Unavailable/unrecorded action: unfilled outlined square with the existing precis
 Unknown value: patterned mark and unknown label; do not substitute white or a severity.
 Each column's two marks remain aligned; the matrix contains only actual luckets.
 Use 10–11px marks with 1–2px gaps, subject to 320px visual verification.
-Right-align the matrix as a whole without reserving empty columns for missing luckets.
+Left-align matrices in a shared 128px right-hand area; unused space contains no placeholder marks.
 Zero luckets renders no marks; retain accessible empty-category context.
 More than 10 luckets renders an explicit overflow notice instead of a misleading truncated matrix.
 
@@ -37,6 +37,8 @@ Provide an accessible description listing lucket codes and both values; tiny mar
 Do not make each tiny mark an independent touch target or nest buttons in the category button.
 Expansion exposes existing per-lucket palette controls; those continue to perform local edits.
 No new header legend is required; shape labels remain available through accessible descriptions and pickers.
+
+Expanded row order: condition circle, action square, code, name; use 10–12px vertical padding.
 
 ## Compatibility
 
