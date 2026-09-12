@@ -7,7 +7,7 @@ import type {ColorEdit} from '../../data/local-colors';
 export function StatusIndicator({value,kind,available=true}:{value:Status;kind:'Condition'|'Action';available?:boolean}) {
  const meaning=!available?'not recorded for this day':value===null?'not recorded':value==='unknown'?'unknown value':value+' (illustrative color; meaning pending)';
  return <span role="img" aria-label={kind+': '+meaning} title={kind+': '+meaning}
-   className={'indicator '+(kind==='Action'?'circle ':'square ')+(value??'unset')}/>;
+   className={'indicator '+(kind==='Condition'?'circle ':'square ')+(available?(value??'unset'):'unset')}/>;
 }
 function LucketRow({row,openDay,onEdit,editingDisabled}:{row:Row;openDay:string|null;onEdit:(edit:ColorEdit)=>Promise<void>;editingDisabled?:boolean}) {
  return <li className="lucket-row" data-code={row.itemId}>
@@ -33,9 +33,16 @@ export default function LifeMap({view,onSignOut,onEdit,editingDisabled}:{view:Vi
    {view.groups.map(({category,children})=>{
     const open=expanded.has(category.id);
     return <section className={'category-group '+(open?'expanded':'')} key={category.id}>
-      <button className="category-row" data-code={category.itemId} aria-label={category.name} aria-expanded={open} aria-controls={'rows-'+category.id} onClick={()=>toggle(category.id)}>
-       <span>{category.itemId}</span><span>{category.name}</span><span className="count">{children.length}</span><span aria-hidden="true">{open?'⌄':'›'}</span>
+      <button className="category-row" data-code={category.itemId} aria-label={category.name} aria-expanded={open} aria-describedby={'summary-'+category.id} aria-controls={'rows-'+category.id} onClick={()=>toggle(category.id)}>
+       <span>{category.itemId}</span><span>{category.name}</span>
+       {children.length>10?<span className="matrix-overflow">More than 10 luckets · expand to view all</span>:
+        <span className="category-matrix" aria-hidden="true">{children.map(row=><span className="matrix-column" key={row.id} data-lucket={row.itemId}>
+         <StatusIndicator kind="Condition" value={row.status}/>
+         <StatusIndicator kind="Action" value={row.actionStatus} available={row.actionAvailable}/>
+        </span>)}</span>}
       </button>
+      <span className="matrix-description" id={'summary-'+category.id}>{children.length===0?'No luckets.':children.map(row=>
+       row.itemId+' '+row.name+': condition '+(row.status??'not recorded')+'; action '+(!row.actionAvailable?'not recorded for this day':row.actionStatus??'not recorded')+'.').join(' ')}</span>
       <ul id={'rows-'+category.id} hidden={!open}>{children.map(row=><LucketRow key={row.id} row={row} openDay={view.openDay} onEdit={onEdit} editingDisabled={editingDisabled}/>)}</ul>
     </section>
    })}

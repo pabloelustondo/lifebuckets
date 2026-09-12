@@ -35,7 +35,7 @@ export default function ColorPicker({rowId,name,kind,value,available=true,openDa
    aria-label={'Edit '+kind.toLowerCase()+' for '+name+': '+meaning} aria-haspopup="dialog" aria-expanded={open}
    title={kind==='Action'&&!openDay?'Set an open day before assigning an action color':label}
    onClick={()=>{setError('');setOpen(true)}}>
-   <span role="img" aria-label={label} className={'indicator '+(kind==='Action'?'circle ':'square ')+(value??'unset')}/>
+   <span role="img" aria-label={label} className={'indicator '+(kind==='Condition'?'circle ':'square ')+(available?(value??'unset'):'unset')}/>
   </button>
   {open&&<dialog ref={dialog} className="color-palette" aria-labelledby={id} aria-busy={busy}
    onCancel={e=>{e.preventDefault();close()}}
@@ -43,7 +43,7 @@ export default function ColorPicker({rowId,name,kind,value,available=true,openDa
    <h2 id={id}>{kind} · {name}</h2>
    <div className="color-choices" role="group" aria-label="Choose a color">
     {colors.map(color=><button key={color} type="button" disabled={busy} aria-pressed={value===color}
-     onClick={()=>void select(color)}><span aria-hidden="true" className={'swatch '+color+(kind==='Action'?' circle':'')}/>
+     onClick={()=>void select(color)}><span aria-hidden="true" className={'swatch '+color+(kind==='Condition'?' circle':'')}/>
      <span>{color[0].toUpperCase()+color.slice(1)}</span><span aria-hidden="true">{value===color?'✓':''}</span></button>)}
    </div>
    <p className="palette-note" role="status">{busy?'Saving locally…':'Saved locally · server sync is not connected'}</p>
