@@ -15,6 +15,7 @@ self.addEventListener('activate',event=>event.waitUntil((async()=>{
 })()));
 self.addEventListener('fetch',event=>{
  const url=new URL(event.request.url);
+ if(url.pathname.startsWith('/api/'))return;
  if(event.request.method!=='GET'||url.origin!==self.location.origin)return;
  if(!PATHS.includes(url.pathname))return;
  event.respondWith(caches.open(CACHE).then(async cache=>{

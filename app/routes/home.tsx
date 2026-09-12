@@ -1,4 +1,6 @@
 import {useEffect,useState,useSyncExternalStore} from 'react';
+import {Link} from 'react-router';
+import '../features/assistant/assistant.css';
 import OfflineShell from '../shell/OfflineShell';
 import LifeMap from '../features/life-map/LifeMap';
 import type {State} from '../data/client';
@@ -18,6 +20,7 @@ function Connected({client}:{client:Client}) {
   finally{setBusy(false)}
  }
  return <main className="app-frame">
+  {state.phase==='ready'&&<nav className="assistant-entry"><Link to="/assistant">Assistant ↗</Link></nav>}
   {state.phase==='signed-out'?<section className="signin">
    <span className="eyebrow">A little space for your whole life</span><h1>LifeBuckets</h1>
    <p>Sign in to revisit your map, at your own pace.</p>

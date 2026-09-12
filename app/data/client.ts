@@ -119,6 +119,15 @@ export async function login(email:string,password:string,trusted:boolean){
   }catch(e){await dispose();localStorage.removeItem(TRUST);emit({phase:'signed-out',trusted:false});throw e}
  });
 }
+// Call immediately before an Assistant request; never persist or expose the token in UI.
+export async function getChatToken():Promise<string>{
+ const r=runtime,user=r?.auth.currentUser,epoch=generation;
+ if(!r||!user||state.uid!==user.uid||blocked()||state.phase!=='ready')throw Error('Sign in to use Assistant.');
+ const token=await user.getIdToken();
+ if(runtime!==r||generation!==epoch||r.auth.currentUser!==user||state.uid!==user.uid||blocked()||r.epoch!==localStorage.getItem(EPOCH))
+  throw Error('Your session changed. Sign in again.');
+ return token;
+}
 export async function setLocalColor(input:ColorEdit):Promise<void>{
  const r=runtime,uid=state.uid,token=generation;
  await exclusive(async()=>{

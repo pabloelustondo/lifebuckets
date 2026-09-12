@@ -1,0 +1,14 @@
+{
+  "date": "2026-09-12T16:20:00.180Z",
+  "model": "gpt-4.1-mini",
+  "provider": "openai",
+  "turns": 2,
+  "replies": [
+    {
+      "text": "You said:\nHi! Please introduce yourself briefly.\nThe assistant said:\n\nHello! I'm your LifeBuckets assistant, here to help you organize, plan, and make the most of your life goals and activities. How can I assist you today?\n\n\n\n\nMessage Assistant…\n\nChats are temporary. Refreshing starts a new conversation."
+    },
+    {
+      "text": "You said:\nHi! Please introduce yourself briefly.\nThe assistant said:\n\nHello! I'm your LifeBuckets assistant, here to help you organize, plan, and make the most of your life goals and activities. How can I assist you today?\n\nYou said:\nWho was General San Martin, and why is he famous in Argentina? Answer in two sentences.\nThe assistant said:\n\nGeneral José de San Martín was a key military leader who played a crucial role in Argentina's independence from Spanish rule. He is famous for leading the Army of the Andes across the Andes mountains to liberate Argentina, Chile, and Peru.\n\n\n\n\nMessage Assistant…\n\nChats are temporary. Refreshing starts a new conversation."
+    }
+  ]
+}
