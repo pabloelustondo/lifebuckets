@@ -1,6 +1,6 @@
 # Sprint 003 — Release and Closure
 
-Status: RELEASE PREPARATION; final commit and production verification pending.
+Status: DEPLOYED; closure record prepared under the user's explicit request.
 User reviewed the local UI and explicitly requested deployment and sprint closure on 2026-09-12.
 Final refinements: neutral gray surfaces, shared left matrix edge, compact lucket rows,
 and condition/action/code/name ordering.
@@ -15,8 +15,8 @@ The approved local color persistence behavior remains unchanged.
 
 ## Source and evidence
 
-Current committed baseline: `90c43dd`; subsequent reviewed refinements await Pablo's commit.
-Record the exact final commit and Hosting release after deployment.
+Deployed source: `5799be0`; working tree was clean before deployment.
+Hosting version: `19ef15029c1f2c67`; release: `1789190879345000`.
 Local validation: [Sprint 003 report](../09-build-and-test/sprint-003-validation.md).
 Pablo's visual review is recorded in this conversation; no independent technical review is claimed.
 Merge remains Pablo's responsibility and has not been performed by this agent.
@@ -37,3 +37,12 @@ Merge remains Pablo's responsibility and has not been performed by this agent.
 An older open tab can keep a service worker update waiting; close all app tabs and reopen.
 Never clear trusted local data to resolve an app update: unsynchronized edits must be preserved.
 Rollback restores the previously recorded Hosting release without deleting personal records.
+
+## Release outcome
+
+Hosting released 2026-09-12T05:27:59.345Z; live index and service worker matched build hashes.
+Authenticated owner data, new matrices, neutral theme and compact expanded rows verified live.
+Existing pending local colors survived update activation; no personal records were modified.
+Fresh production color edits and offline restart were not exercised; these passed locally.
+Independent technical review and merge remain outstanding; neither is claimed as completed.
+This closure evidence remains uncommitted for Pablo to retain in Git.
