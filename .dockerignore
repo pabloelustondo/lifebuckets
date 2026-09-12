@@ -1,0 +1,8 @@
+# Explicit allowlist: never upload local credentials, fixtures or virtual environments.
+**
+!server/
+!server/*.py
+!server/requirements.lock
+!server/Dockerfile
+!.dockerignore
+!.gcloudignore

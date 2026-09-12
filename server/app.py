@@ -1,4 +1,4 @@
-"""Local ChatKit endpoint: authenticate before protocol dispatch or provider work."""
+"""ChatKit endpoint: authenticate before protocol dispatch or provider work."""
 import asyncio
 import logging
 import os
@@ -63,7 +63,7 @@ class AssistantServer(ChatKitServer[str]):
         yield ThreadItemDoneEvent(item=item)
 
 
-def create_app(verifier=None, provider=None, store=None):
+def create_app(verifier=None, provider=None, store=None, allowed_owner=None):
     app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
     store = store or MemoryStore()
     server = AssistantServer(store, provider or SimulatedProvider())
@@ -90,6 +90,8 @@ def create_app(verifier=None, provider=None, store=None):
             owner = await verifier.verify(authorization[7:])
         except AuthenticationError:
             return error(401, "Sign in again to use Assistant.")
+        if allowed_owner is not None and owner != allowed_owner:
+            return error(403, "Assistant is available only to the personal owner.")
         body = bytearray()
         async for chunk in request.stream():
             body.extend(chunk)
@@ -172,6 +174,19 @@ def create_app(verifier=None, provider=None, store=None):
 
 def configured_app():
     project = os.environ.get("CHATKIT_FIREBASE_PROJECT")
+    production = os.environ.get("CHATKIT_ENV") == "production" or bool(os.environ.get("K_SERVICE"))
+    # A declared non-demo project must satisfy the production contract, even outside Cloud Run.
+    production = production or bool(project and not project.startswith("demo-"))
+    owner = os.environ.get("CHATKIT_OWNER_UID", "").strip()
+    if production:
+        if project != "lifebuckets-bd43d":
+            raise ValueError("Production requires the declared LifeBuckets project")
+        if any(value for key, value in os.environ.items() if "EMULATOR" in key):
+            raise ValueError("Production refuses emulator configuration")
+        if os.environ.get("CHATKIT_PROVIDER") != "openai" or os.environ.get("CHATKIT_MODEL") != "gpt-4.1-mini":
+            raise ValueError("Production requires the approved provider and model")
+        if not owner or len(owner) > 128 or not os.environ.get("OPENAI_API_KEY", "").strip():
+            raise ValueError("Production requires owner UID and server credential")
     if not project:
         return create_app()  # Fails closed until launched with an explicit environment.
     mode = os.environ.get("CHATKIT_PROVIDER", "simulated")
@@ -179,7 +194,7 @@ def configured_app():
         raise ValueError("Unknown provider")
     provider = SimulatedProvider() if mode == "simulated" else OpenAIProvider(
         os.environ.get("OPENAI_API_KEY", ""), os.environ.get("CHATKIT_MODEL", ""))
-    return create_app(FirebaseVerifier(project), provider)
+    return create_app(FirebaseVerifier(project), provider, allowed_owner=owner if production else None)
 
 
 app = configured_app()

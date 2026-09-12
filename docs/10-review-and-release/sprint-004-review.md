@@ -1,36 +1,37 @@
 # Sprint 004 — Review Handoff
 
-Status: LOCAL PROOF REVIEWED; NOT READY FOR PRODUCTION DEPLOYMENT.
+Status: HOSTED CANDIDATE IMPLEMENTED; NOT DEPLOYED OR ACCEPTED IN PRODUCTION.
 Reviewer: implementing agent; no independent technical review or reviewer initials claimed.
-Baseline: a2a4fdd plus the current uncommitted implementation; date 2026-09-12.
-Pablo reviewed real GPT behavior in the supplied Borges screenshot and requested review/commit/deploy.
+Baseline: implementation aab5081 and approved hosted Tasks 3991f2c; date 2026-09-12.
+Pablo requested deployment; this handoff covers the resulting uncommitted release candidate.
 
 ## Review scope and evidence
 
-Inspected session-token retrieval, custom fetch, SDK dispatch, ownership, provider, store and local proxy.
-The local flow uses actual React ChatKit and Python SDK streaming; no lucket data reaches GPT.
-[Validation](../09-engineering/sprint-004/validation.md) records tests and known limitations.
-Real GPT greeting and follow-up were visually verified; credential stays outside Git and the public build.
-Build, typecheck, 18 unit tests and all 19 existing browser regressions pass on Node 24.21.0.
-Python tests cover auth, owner isolation, limits, expiry, cancellation and safe provider failures.
-No blocking defect identified for the approved local demonstration.
+Local React ChatKit/Python GPT behavior was previously reviewed with real replies.
+The hosted candidate adds production owner authorization, container packaging and explicit release tooling.
+[Hosted validation](../09-engineering/sprint-004/hosted-validation.md) records checks, screenshots and limitations.
+Node 24 build/typecheck and 18 app unit tests pass; all 30 Python checks pass.
+Three hosted-configuration tests and one real-widget browser recovery test pass without paid GPT calls.
+The cloud upload excludes credentials/fixtures; the public build does not contain the authorized server key.
+The container base manifest/digest is verified, but the final container has not been built or run.
 
-## Production blockers
+## Remaining publication prerequisites
 
-1. Hosting has no Python endpoint: the current launcher binds loopback and forces the demo environment.
-2. Cloud deployment configuration, runtime identity and secret binding are not implemented or approved yet.
-3. Production must restrict paid chat to the personal owner; a valid project token alone is insufficient.
-4. The production ChatKit domain key is not configured; the UI deliberately refuses hosted activation.
-5. Memory-only history requires explicit restart/scale-to-zero behavior and a single-instance rollout policy.
-6. A physical phone keyboard check and hosted owner acceptance remain unverified.
+1. Pablo reviews and commits these release changes, preserving the exact-candidate gate.
+2. Billing is disabled for lifebuckets-bd43d; Pablo must enable it with the intended account.
+3. Register the exact production ChatKit domain and configure the public domain key.
+4. Verify provisioning authority, then build/run the container and validate cloud permissions and secret binding.
+5. Publish backend before Hosting; record revision/digest and prior/current Hosting releases.
+6. Verify hosted owner chat, proxy streaming, map/local edits and physical phone keyboard.
 
-These are release prerequisites, not claims that the locally reviewed page is already hosted.
-See the [hosted deployment Plan](../07-planning/sprints/sprint-004-chatkit-poc/05-hosted-deployment-plan.md).
-Pablo's Plan commit precedes separate deployment Tasks; their commit precedes infrastructure implementation.
+These are remaining release prerequisites; a local build does not prove hosted behavior.
+The [runbook](../09-engineering/sprint-004/hosted-runbook.md) provides separate preflight/provision/backend/hosting steps.
+The [hosted Plan](../07-planning/sprints/sprint-004-chatkit-poc/05-hosted-deployment-plan.md) and Tasks retain authority boundaries.
 
-## Commit handoff
+## Handoff
 
-All implementation, tests, screenshots, review evidence and the proposed deployment Plan are staged together.
-Secrets, Python virtual environment, installed dependencies and generated builds remain ignored.
-Suggested message: `Implement Sprint 004 ChatKit proof and plan hosted deployment`.
-Pablo performs the commit. This commit does not close the sprint or assert deployment acceptance.
+No cloud mutation, paid GPT test, account creation, rules deployment or data migration occurred in this candidate work.
+Pablo's commit approves the exact review; the agent never commits, pushes or merges.
+Suggested commit message: `Prepare Sprint 004 owner-only Cloud Run deployment`.
+After prerequisites, existing deployment authorization covers the declared resources and release checks.
+No main promotion, previous-branch cleanup or sprint closure is implied by implementation or deployment.

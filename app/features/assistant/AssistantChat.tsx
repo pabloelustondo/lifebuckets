@@ -35,7 +35,7 @@ function Conversation({client,online,provider,onNew}:{client:Client;online:boole
      setError('');
      const response=await fetch(input,{...init,headers,cache:'no-store',redirect:'error',signal:AbortSignal.any(signals)});
      if(!response.ok){
-      const messages:Record<number,string>={400:'Please send only text, up to 2000 characters.',401:'Your session expired. Return to your life map and sign in.',403:'This conversation is unavailable. Start a new chat.',404:'This conversation expired. Start a new chat.',429:'Please wait before sending another message.'};
+      const messages:Record<number,string>={400:'Please send only text, up to 2000 characters.',401:'Your session expired. Return to your life map and sign in.',403:'Assistant is restricted to the personal owner, or this conversation is unavailable.',404:'This conversation expired. Start a new chat.',429:'Please wait before sending another message.'};
       setError(messages[response.status]||'Assistant is unavailable. Check the server and try again.');
      }
      return response;
@@ -47,7 +47,7 @@ function Conversation({client,online,provider,onNew}:{client:Client;online:boole
   startScreen:{greeting:'A little space to talk.',prompts:[{label:'Say hello',prompt:'Hi! Please introduce yourself briefly.',icon:'sparkle'}]},
   composer:{placeholder:'Message Assistant…',attachments:{enabled:false},dictation:{enabled:false}},
   threadItemActions:{feedback:false,retry:false},
-  disclaimer:{text:'Chats are temporary. Refreshing starts a new conversation.',highContrast:true},
+  disclaimer:{text:'Chats are temporary and may expire or disappear when the server restarts. Use New chat to begin again.',highContrast:true},
   onReady:()=>setReady(true),onResponseStart:()=>setBusy(true),onResponseEnd:()=>setBusy(false),
   onError:()=>{setBusy(false);setError(previous=>previous||'Chat could not finish. Please try again or start a new chat.')},
  });
@@ -67,7 +67,7 @@ export default function AssistantChat({client}:{client:Client}){
  useEffect(()=>{
   const abort=new AbortController();let active=true;setError('');setLoaded(false);
   if(!['localhost','127.0.0.1'].includes(location.hostname)&&!import.meta.env.VITE_CHATKIT_DOMAIN_KEY){setError('Assistant is not configured on this site yet.');return}
-  Promise.all([loadChatKit(),fetch('/api/chatkit/health',{cache:'no-store',signal:abort.signal}).then(async r=>{if(!r.ok)throw Error('Assistant server is unavailable.');const result=await r.json();if(!['simulated','openai'].includes(result.provider))throw Error('Assistant server is unavailable.');return result.provider as string})]).then(([,mode])=>{if(active){setProvider(mode);setLoaded(true)}}).catch(()=>{if(active)setError('Assistant could not load. Check your connection and that the local chat server is running.')});
+  Promise.all([loadChatKit(),fetch('/api/chatkit/health',{cache:'no-store',signal:abort.signal}).then(async r=>{if(!r.ok)throw Error('Assistant server is unavailable.');const result=await r.json();if(!['simulated','openai'].includes(result.provider))throw Error('Assistant server is unavailable.');return result.provider as string})]).then(([,mode])=>{if(active){setProvider(mode);setLoaded(true)}}).catch(()=>{if(active)setError('Assistant could not load. Check your connection and try again.')});
   return()=>{active=false;abort.abort()};
  },[attempt]);
  if(error)return <section className="assistant-unavailable"><h1>Assistant</h1><p role="alert">{error}</p><button className="assistant-new" onClick={()=>setAttempt(n=>n+1)}>Retry</button></section>;

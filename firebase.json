@@ -22,6 +22,20 @@
     ],
     "rewrites": [
       {
+        "source": "/api/chatkit",
+        "run": {
+          "serviceId": "lifebuckets-chat",
+          "region": "northamerica-northeast1"
+        }
+      },
+      {
+        "source": "/api/chatkit/**",
+        "run": {
+          "serviceId": "lifebuckets-chat",
+          "region": "northamerica-northeast1"
+        }
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
