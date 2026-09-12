@@ -15,9 +15,12 @@ Read [SDLC2 governance](docs/00-sdlc2-governance/README.md) before changing docu
 
 ## Execution
 
+- Before starting a new sprint, verify the previous sprint is merged into remote dev and its local/remote sprint branches are removed; see docs/00-sdlc2-governance/branch-lifecycle.md.
+- Treat main as a stable baseline: promote from dev only after documented real-user end-to-end validation and explicit human approval.
+- UI changes require a reviewable mockup and saved image in the visual specification before implementation Tasks are finalized; see docs/00-sdlc2-governance/ui-design-review.md.
 - Approve a Sprint Plan first; only then draft and separately approve Sprint Plan Tasks.
 - No sprint coding starts until Pablo has committed both artifacts and all governed Markdown dependencies, and explicitly authorized implementation.
-- Create and switch to a dedicated codex/sprint-NNN-short-name branch before coding.
+- Create and switch to a dedicated codex/sprint-NNN-short-name branch from verified current dev before coding.
 - Each task modifies exactly one approved component; split cross-component work into ordered tasks.
 - Approve affected interface contracts before coding and verify both sides during review.
 - Authorized work includes routine in-scope edits, builds, tests, and local checks; continue without intermediate permission.

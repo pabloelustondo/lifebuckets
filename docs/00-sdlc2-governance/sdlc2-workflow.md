@@ -5,18 +5,19 @@ The [lifecycle index](../README.md) assigns decisions and evidence to their owni
 
 ## Sequence
 
-1. Inspect the checkout, existing decisions, components, and constraints.
+1. Pass the [previous-sprint merge and cleanup gate](branch-lifecycle.md), then inspect the checkout and constraints.
 2. Define intent, use cases, measurable acceptance, architecture, and affected contracts.
-3. Draft a Sprint Plan: goal, stories, scope, exclusions, dependencies, acceptance, and risks.
+3. For UI changes, produce a mockup and linked visual specification; draft a Sprint Plan: goal, stories, scope, exclusions, dependencies, acceptance, and risks.
 4. Pablo reviews and commits the Plan and its governed dependencies.
 5. Draft separate Sprint Plan Tasks with ordered work, one approved component per task.
 6. Pablo reviews and commits Tasks and their governed dependencies.
-7. With explicit implementation authorization, create a dedicated sprint branch and execute.
+7. With explicit implementation authorization, create a dedicated sprint branch from verified current dev and execute.
 8. Record delivered scope and test evidence, including the end-to-end gate.
 9. Obtain independent review; distinguish reproduced evidence from implementer claims.
-10. Pablo decides acceptance and subsequent actions, and performs commits and merges into main.
+10. Pablo decides acceptance, commits the completed sprint, merges it into dev and removes its branches.
 11. Deploy or release only with explicit authority for the declared target; record live results.
-12. Feed observations and lessons back into context, intent, design, and planning.
+12. Promote dev to main separately after real-user end-to-end validation and explicit approval.
+13. Feed observations and lessons back into context, intent, design, and planning.
 
 ## Working rules
 

@@ -6,6 +6,8 @@ Uncommitted documentation remains a proposal for Pablo's review.
 ## Rules
 
 - [Document review](document-review.md): commit approval and attribution.
+- [Branch lifecycle](branch-lifecycle.md): previous-sprint merge/cleanup and stable main promotion.
+- [UI design review](ui-design-review.md): mockup and image evidence before UI implementation.
 - [Workflow](sdlc2-workflow.md): planning, execution, evidence, and completion.
 - [Component contracts](component-contracts.md): interfaces before implementation.
 - [End-to-end gate](end-to-end-happy-path-gate.md): reproducible whole-system proof.
