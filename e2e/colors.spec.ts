@@ -29,8 +29,8 @@ test('five colors, independent saves, current choice, cancel, and narrow-screen 
  await expect(palette.getByRole('button',{name:'White',exact:true})).toHaveAttribute('aria-pressed','true');
  await expect(palette.getByRole('button',{name:'White',exact:true})).toBeFocused();
  const bounds=await palette.boundingBox();expect(bounds!.x).toBeGreaterThanOrEqual(0);expect(bounds!.x+bounds!.width).toBeLessThanOrEqual(320);
- await mkdir('docs/09-build-and-test/sprint-002-evidence',{recursive:true});
- await page.screenshot({path:'docs/09-build-and-test/sprint-002-evidence/palette-320.png',fullPage:true});
+ await mkdir('docs/09-build-and-test/sprint-003-evidence',{recursive:true});
+ await page.screenshot({path:'docs/09-build-and-test/sprint-003-evidence/palette-320.png',fullPage:true});
  await page.keyboard.press('Escape');await expect(trigger).toBeFocused();
  await trigger.click();await page.mouse.click(2,2);await expect(palette).toHaveCount(0);
  await trigger.click();await palette.getByRole('button',{name:'Green',exact:true}).focus();await page.keyboard.press('Enter');
@@ -44,7 +44,10 @@ test('persistent edits survive real browser restart offline and server refresh',
   await context.close();context=await chromium.launchPersistentContext(info.outputPath('colors-profile'),{headless:true,baseURL:'http://127.0.0.1:4173',offline:true});
   page=await context.newPage();await page.goto('/');await ready(page);await expand(page);
   await expect(row(page).getByRole('img',{name:'Condition: red',exact:true})).toBeVisible();await expect(row(page).getByRole('img',{name:'Action: green',exact:true})).toBeVisible();
-  await pick(page,'action','Yellow');await context.setOffline(false);await expect(page.getByText('Server data received',{exact:true})).toBeVisible();
+  await expect(page.locator('[data-lucket="C1"] .circle')).toHaveClass(/red/);
+  await expect(page.locator('[data-lucket="C1"] .square')).toHaveClass(/green/);
+  await expect(page.locator('time')).toHaveAttribute('datetime','2026-09-09');
+  await pick(page,'action','Yellow');await expect(page.locator('[data-lucket="C1"] .square')).toHaveClass(/yellow/);await context.setOffline(false);await expect(page.getByText('Server data received',{exact:true})).toBeVisible();
   await expect(row(page).getByRole('img',{name:'Action: yellow',exact:true})).toBeVisible();
   await page.reload();await ready(page);await expand(page);await expect(row(page).getByRole('img',{name:'Action: yellow',exact:true})).toBeVisible();
  }finally{await context.close()}

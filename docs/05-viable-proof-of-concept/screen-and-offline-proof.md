@@ -9,7 +9,8 @@ The supplied narrative records agreement on:
 - Compact header: LifeBuckets, avatar P, and open date.
 - Dark subtly textured category rows and lighter lucket rows.
 - In-place expansion with full-width rows and no progressive indentation.
-- ID, condition square, action circle, name, then flexible useful details.
+- Original reference: ID, condition square, action circle, name, then flexible useful details.
+- Sprint 003 proposes condition circles and action squares consistently; see its category-matrix Plan.
 - Font-sized indicators with thin black outlines.
 
 The linked guide contains the reference illustrations.

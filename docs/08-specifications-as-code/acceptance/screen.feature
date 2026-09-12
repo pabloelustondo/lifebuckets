@@ -20,7 +20,7 @@ Feature: Scan and explore the life map
     When I expand the categories
     Then rows use the same horizontal space without progressive indentation
     And codes and indicators stay visible while long text wraps without horizontal scrolling
-    And each lucket orders its ID, condition square, action circle, name, and optional details
+    And each lucket orders its ID, condition circle, action square, name, and optional details
     And both font-sized shapes have thin black outlines
     Examples:
       | width |
@@ -47,3 +47,14 @@ Feature: Scan and explore the life map
     When the screen is displayed
     Then the header contains only LifeBuckets, avatar P, and that open date
     And there is no header legend, total summary, Open day label, or close-day control
+
+  @LB-013
+  Scenario: See every lucket without an aggregate
+    Given a category with between 1 and 10 luckets having independent condition and action colors
+    When its category row is displayed
+    Then its left-aligned matrix in a shared right-hand area has one column per lucket in expanded-list order
+    And circles above squares show the corresponding condition and available action values
+    And the count and chevron are absent
+    And no average, maximum, minimum, or derived category color is computed
+    When I change a lucket color locally
+    Then its matrix mark matches the updated expanded row
