@@ -1,11 +1,11 @@
 # Sprint 004 — ChatKit Greeting Proof of Concept
 
-Status: PROPOSED; planning only, no implementation Tasks or deployment authorization.
+Status: Plan committed in 7fa6d60; runtime/baseline updates below await review and commit.
 Input: Pablo requests a new React ChatKit page with a real greeting from server-side GPT.
 The supplied first-iteration spec is guidance; its voice and attachment scope is deferred.
-Reference baseline: Sprint 003 at fc01ed2; local dev currently points to d2ad031.
-Before coding, verify updated remote dev includes Sprint 003 and create a dedicated sprint branch.
-Proposed branch: codex/sprint-004-chatkit-poc; no branch changes performed during planning.
+Baseline: dev and recorded origin/dev at 02a01ab include the Sprint 003 merge.
+Before coding, refresh remote state and finish the previous-sprint branch cleanup gate.
+Current branch: codex/sprint-004-chatkit-poc, descended from dev at 02a01ab.
 
 ## Goal
 
@@ -47,4 +47,4 @@ No lucket reads are sent to GPT and no domain writes occur.
 
 No dictation, attachments, Realtime voice, agent actions, durable chat history or server color sync.
 No production deployment, cloud provisioning, branch merge, or credential reuse from AI Shop.
-Resolve readiness decisions, review and commit Plan/design, then draft separate implementation Tasks.
+Review and commit [Tasks](04-sprint-plan-tasks.md) and changed dependencies; explicitly authorize coding.

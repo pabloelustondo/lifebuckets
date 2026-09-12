@@ -17,14 +17,14 @@ Serve the protocol's streaming responses without buffering; JSON for nonstreamin
 Return 401 for unauthenticated, 403 for unauthorized, 429 for throttling, safe errors for failures.
 No-store applies to chat responses; service worker must exclude API traffic and credentials.
 
-## Runtime proposal
+## Runtime decision
 
 Current OpenAI guidance directs new apps to a self-hosted ChatKit server integration.
 The documented server SDK is openai-chatkit (Python), with Agents SDK streaming helpers.
-Propose a small isolated Python service rather than hand-writing ChatKit protocol in Node.
+Pablo selected a small isolated Python service with React/TypeScript in the browser.
 Retain React/TypeScript frontend; the existing app does not need a backend rewrite.
 AI Shop's Node Firebase Functions implementation is a pattern reference, not ChatKit protocol support.
-Confirm this runtime choice before Tasks; investigate an official Node server path if Node is required.
+Use a FastAPI HTTP entry point; retain the SDK protocol instead of implementing a custom one.
 For this local proof, run a single process with an owner-scoped in-memory thread store and TTL.
 Clear browser thread identity on reload/sign-out; expire server memory after 30 minutes.
 No durable-history claim; a later hosted release must explicitly decide storage and scaling.

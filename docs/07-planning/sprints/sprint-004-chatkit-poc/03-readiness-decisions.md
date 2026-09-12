@@ -1,10 +1,10 @@
 # Sprint 004 — Readiness Decisions
 
-Status: PROPOSED; resolve these before committing the final Plan and drafting Tasks.
+Status: Runtime selected by Pablo; remaining checks below keep Tasks provisional.
 
 ## Runtime and contract
 
-Recommended: official Python ChatKit server SDK plus React bindings; confirm before Tasks.
+Selected: Python ChatKit server SDK plus React/TypeScript bindings.
 AI Shop uses Node 22 Firebase Functions with server-side Responses API requests.
 Its provider adapter cannot be substituted directly for a ChatKit protocol endpoint.
 Do not assume the hosted-workflow session/client-secret approach from the supplied spec.
@@ -26,7 +26,8 @@ Local test credentials/emulator tokens must never be accepted by a future produc
 This sprint proves local integration; production resource creation needs separate authority.
 Before any hosted release, declare service identity, region, runtime, secret binding and storage.
 Do not inherit AI Shop's environment or deployment configuration.
-Local dev has not incorporated Sprint 003 in the observed refs; verify current remote before branching.
+Local dev and recorded origin/dev are 02a01ab; Sprint 004 descends from this merged baseline.
+The old local Sprint 003 branch still exists; Pablo must finish cleanup before implementation.
 Pablo performs merges and commits; agents do not move dev or merge sprint branches.
 
 ## Inspected AI Shop reference files
