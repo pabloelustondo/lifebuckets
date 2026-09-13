@@ -11,6 +11,7 @@ Sprint Plan followed by separate Sprint Plan Tasks. See the [sprint registry](sp
 Start with the [sprint-plan template](../templates/sprint-plan.md).
 ## Product drafts
 
+- [Product backlog](backlog.md)
 - [Sprint 001 Plan](sprints/sprint-001-read-only-life-map/01-sprint-plan.md)
 - [Incremental roadmap](roadmap.md)
 - [Open decisions](open-decisions.md)
