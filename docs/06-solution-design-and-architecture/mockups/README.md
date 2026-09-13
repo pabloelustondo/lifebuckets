@@ -11,3 +11,4 @@ then review and commit them as design dependencies before finalizing implementat
 Revise the Plan if detailed design changes its scope or acceptance criteria.
 
 - [Sprint 004 Assistant page](assistant-chatkit.md): interactive design mockup and phone/desktop images.
+- [Sprint 005 Assistant dictation](assistant-dictation.md): microphone states, editable transcript and typed fallback.
