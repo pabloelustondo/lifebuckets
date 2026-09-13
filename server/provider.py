@@ -10,6 +10,9 @@ class ProviderUnavailable(Exception):
 class SimulatedProvider:
     mode = "simulated"
 
+    async def transcribe(self, data: bytes, mime_type: str) -> str:
+        return "Dictated message for local testing."
+
     async def reply(self, messages: list[dict[str, str]]) -> AsyncIterator[str]:
         text = ("Hi! I'm your LifeBuckets assistant. This is a simulated reply for local testing. "
                 "What would you like to talk about?") if len(messages) == 1 else (
@@ -28,6 +31,26 @@ class OpenAIProvider:
             raise ValueError("Server key and model are required")
         self.client = AsyncOpenAI(api_key=key, max_retries=0, timeout=30)
         self.model = model
+
+    async def transcribe(self, data: bytes, mime_type: str) -> str:
+        extensions = {"audio/webm": "webm", "audio/ogg": "ogg", "audio/mp4": "m4a"}
+        media_type = mime_type.split(";", 1)[0].lower()
+        try:
+            async with asyncio.timeout(30):
+                result = await self.client.audio.transcriptions.create(
+                    model="gpt-4o-mini-transcribe",
+                    file=(f"dictation.{extensions[media_type]}", data, media_type),
+                )
+            text = result.text.strip()
+            if not text or len(text) > 2000:
+                raise ProviderUnavailable("No usable transcription was received.")
+            return text
+        except asyncio.CancelledError:
+            raise
+        except ProviderUnavailable:
+            raise
+        except Exception:
+            raise ProviderUnavailable("Dictation is unavailable right now. Please type instead.") from None
 
     async def reply(self, messages: list[dict[str, str]]) -> AsyncIterator[str]:
         try:

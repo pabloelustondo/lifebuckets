@@ -18,8 +18,10 @@ test('Assistant real ChatKit greeting, follow-up, new chat and map preservation'
  await expect(page.getByText('Local test · simulated replies')).toBeVisible();
  const frame=page.frameLocator('iframe[title="LifeBuckets Assistant"]');
  await expect(frame.getByText('A little space to talk.')).toBeVisible({timeout:30000});
+ const dictation=frame.locator('button[data-variant="ghost"][data-size="lg"]');
+ await expect(dictation).toBeVisible();
  await page.setViewportSize({width:390,height:844});
- await page.screenshot({path:'docs/09-engineering/sprint-004/assistant-phone-welcome.png',fullPage:true});
+ await page.screenshot({path:'docs/09-engineering/sprint-005/assistant-phone-dictation.png',fullPage:true});
  await frame.getByRole('button',{name:/Say hello/}).click();
  await expect(frame.getByText(/This is a simulated reply/)).toBeVisible({timeout:20000});
  await expect(page.locator('.assistant-status')).toHaveText('');
@@ -30,12 +32,12 @@ test('Assistant real ChatKit greeting, follow-up, new chat and map preservation'
  await expect(page.locator('.assistant-status')).toHaveText('');
  // The CDN widget animates message entry after its response.end event.
  await page.waitForTimeout(1200);
- await page.screenshot({path:'docs/09-engineering/sprint-004/assistant-phone-chat.png',fullPage:true});
+ await page.screenshot({path:'docs/09-engineering/sprint-005/assistant-phone-chat.png',fullPage:true});
  for(const width of [320,1440]){
   await page.setViewportSize({width,height:900});
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
- await page.screenshot({path:'docs/09-engineering/sprint-004/assistant-desktop-chat.png',fullPage:true});
+ await page.screenshot({path:'docs/09-engineering/sprint-005/assistant-desktop-chat.png',fullPage:true});
  await composer.fill('Draft survives offline');
  await page.context().setOffline(true);
  await expect(page.getByText(/You’re offline/)).toBeVisible();
