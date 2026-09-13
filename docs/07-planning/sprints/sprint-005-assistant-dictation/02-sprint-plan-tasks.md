@@ -1,6 +1,6 @@
 # Sprint 005 — Implementation Tasks
 
-Status: PROPOSED TASKS; no coding authority until Pablo reviews and commits this file and its dependencies.
+Status: ON HOLD; discovery proved the custom backend requires a transcription contract outside this scope.
 Approved Plan commit: 90d3cb8. Development baseline: dev at 90d3cb8.
 Authorization context: Pablo requested implementation after committing the Plan; Tasks approval remains a separate gate.
 Read the [Plan](01-sprint-plan.md) and [visual specification](../../../06-solution-design-and-architecture/mockups/assistant-dictation.md).
