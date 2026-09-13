@@ -1,5 +1,7 @@
 """ChatKit endpoint: authenticate before protocol dispatch or provider work."""
 import asyncio
+import base64
+import binascii
 import logging
 import os
 import time
@@ -14,7 +16,7 @@ from pydantic import TypeAdapter, ValidationError
 from chatkit.errors import CustomStreamError
 from chatkit.server import ChatKitServer, StreamingResult
 from chatkit.store import NotFoundError
-from chatkit.types import (ChatKitReq, AssistantMessageItem, AssistantMessageContent,
+from chatkit.types import (ChatKitReq, AudioInput, TranscriptionResult, AssistantMessageItem, AssistantMessageContent,
     ThreadItemAddedEvent, ThreadItemUpdatedEvent, ThreadItemDoneEvent,
     AssistantMessageContentPartTextDelta, ErrorEvent, UserMessageItem)
 
@@ -25,13 +27,28 @@ from server.store import MemoryStore, OwnershipError, CapacityError
 LOG = logging.getLogger("lifebuckets.chat")
 HEADERS = {"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"}
 GENERATE = {"threads.create", "threads.add_user_message"}
-ALLOWED = GENERATE | {"threads.get_by_id", "threads.list", "items.list", "threads.delete"}
+TRANSCRIBE = "input.transcribe"
+ALLOWED = GENERATE | {TRANSCRIBE, "threads.get_by_id", "threads.list", "items.list", "threads.delete"}
+SUPPORTED_AUDIO = {"audio/webm", "audio/ogg", "audio/mp4"}
+MAX_AUDIO_BYTES = 1_000_000
+MAX_REQUEST_BYTES = 1_400_000
 
 
 class AssistantServer(ChatKitServer[str]):
     def __init__(self, store, provider):
         super().__init__(store)
         self.provider = provider
+
+    async def transcribe(self, audio_input: AudioInput, context: str) -> TranscriptionResult:
+        try:
+            text = await self.provider.transcribe(audio_input.data, audio_input.mime_type)
+            return TranscriptionResult(text=text)
+        except asyncio.CancelledError:
+            raise
+        except ProviderUnavailable:
+            raise
+        except Exception:
+            raise ProviderUnavailable("Dictation is unavailable. Please type instead.") from None
 
     async def respond(self, thread, input, context):
         page = await self.store.load_thread_items(thread.id, None, 20, "desc", context)
@@ -95,8 +112,8 @@ def create_app(verifier=None, provider=None, store=None, allowed_owner=None):
         body = bytearray()
         async for chunk in request.stream():
             body.extend(chunk)
-            if len(body) > 16384:
-                return error(413, "Message is too large.")
+            if len(body) > MAX_REQUEST_BYTES:
+                return error(413, "Request is too large.")
         try:
             parsed = TypeAdapter(ChatKitReq).validate_json(bytes(body))
         except (ValidationError, ValueError):
@@ -106,6 +123,14 @@ def create_app(verifier=None, provider=None, store=None, allowed_owner=None):
         params = parsed.params
         thread_id = getattr(params, "thread_id", None)
         try:
+            if parsed.type == TRANSCRIBE:
+                media_type = params.mime_type.split(";", 1)[0].lower()
+                try:
+                    audio = base64.b64decode(params.audio_base64, validate=True)
+                except (binascii.Error, ValueError):
+                    return error(400, "Invalid audio input.")
+                if media_type not in SUPPORTED_AUDIO or not audio or len(audio) > MAX_AUDIO_BYTES:
+                    return error(400, "Use a supported recording up to 1 MB.")
             if thread_id:
                 record = store.record(thread_id, owner)
                 if parsed.type in GENERATE and len(record.items) >= 98:
@@ -128,7 +153,7 @@ def create_app(verifier=None, provider=None, store=None, allowed_owner=None):
                     requests[uid].popleft()
                 if not requests[uid]:
                     del requests[uid]
-            if parsed.type in GENERATE:
+            if parsed.type in GENERATE | {TRANSCRIBE}:
                 recent = requests.setdefault(owner, deque())
                 if len(recent) >= 10:
                     return error(429, "Please wait a minute before sending more messages.")

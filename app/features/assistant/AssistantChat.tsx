@@ -45,7 +45,7 @@ function Conversation({client,online,provider,onNew}:{client:Client;online:boole
   theme:{colorScheme:'light',radius:'round',color:{accent:{primary:'#27313f',level:2}}},
   header:{enabled:false},history:{enabled:false},
   startScreen:{greeting:'A little space to talk.',prompts:[{label:'Say hello',prompt:'Hi! Please introduce yourself briefly.',icon:'sparkle'}]},
-  composer:{placeholder:'Message Assistant…',attachments:{enabled:false},dictation:{enabled:false}},
+  composer:{placeholder:'Message Assistant…',attachments:{enabled:false},dictation:{enabled:true}},
   threadItemActions:{feedback:false,retry:false},
   disclaimer:{text:'Chats are temporary and may expire or disappear when the server restarts. Use New chat to begin again.',highContrast:true},
   onReady:()=>setReady(true),onResponseStart:()=>setBusy(true),onResponseEnd:()=>setBusy(false),

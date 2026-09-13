@@ -1,13 +1,14 @@
 import asyncio
+import base64
 import json
 from datetime import datetime, timezone
 
 import httpx
 import pytest
 from chatkit.types import ThreadMetadata
-from server.app import create_app, AssistantServer
+from server.app import create_app, AssistantServer, MAX_REQUEST_BYTES
 from server.auth import AuthenticationError, FirebaseVerifier
-from server.provider import SimulatedProvider
+from server.provider import SimulatedProvider, OpenAIProvider
 from server.store import MemoryStore, OwnershipError, NotFoundError
 
 
@@ -21,6 +22,11 @@ class Verifier:
 class Provider(SimulatedProvider):
     def __init__(self):
         self.calls = []
+        self.transcription_calls = []
+
+    async def transcribe(self, data, mime_type):
+        self.transcription_calls.append((data, mime_type))
+        return "Dictated test message."
 
     async def reply(self, messages):
         self.calls.append(messages)
@@ -34,6 +40,11 @@ def message(text="Hi", thread=None):
     if thread:
         params["thread_id"] = thread
     return {"type": "threads.add_user_message" if thread else "threads.create", "params": params}
+
+
+def transcription(data=b"audio", mime_type="audio/webm;codecs=opus"):
+    return {"type": "input.transcribe", "params": {
+        "audio_base64": base64.b64encode(data).decode(), "mime_type": mime_type}}
 
 
 def events(response):
@@ -78,6 +89,50 @@ async def test_auth_before_provider(setup, header):
     response = await client.post('/api/chatkit', json=message(), headers={'Authorization': header})
     assert response.status_code == 401
     assert not provider.calls
+    response = await client.post('/api/chatkit', json=transcription(), headers={'Authorization': header})
+    assert response.status_code == 401
+    assert not provider.transcription_calls
+
+
+async def test_authenticated_dictation_is_bounded_and_ephemeral(setup):
+    _, client, provider = setup
+    headers = {'Authorization': 'Bearer alice'}
+    response = await client.post('/api/chatkit', json=transcription(), headers=headers)
+    assert response.status_code == 200
+    assert response.json() == {'text': 'Dictated test message.'}
+    assert provider.transcription_calls == [(b'audio', 'audio/webm;codecs=opus')]
+    for body in [transcription(b'', 'audio/webm'), transcription(b'audio', 'audio/wav'),
+                 transcription(b'x' * 1_000_001, 'audio/webm'),
+                 {'type': 'input.transcribe', 'params': {'audio_base64': '!!!', 'mime_type': 'audio/webm'}}]:
+        assert (await client.post('/api/chatkit', json=body, headers=headers)).status_code == 400
+    assert len(provider.transcription_calls) == 1
+
+
+async def test_transcription_provider_uses_bounded_audio_api():
+    class Transcriptions:
+        def __init__(self):
+            self.calls = []
+        async def create(self, **kwargs):
+            self.calls.append(kwargs)
+            return type('Result', (), {'text': '  Spoken priorities.  '})()
+    transcriptions = Transcriptions()
+    provider = OpenAIProvider.__new__(OpenAIProvider)
+    provider.client = type('Client', (), {'audio': type('Audio', (), {'transcriptions': transcriptions})()})()
+    assert await provider.transcribe(b'audio', 'audio/webm;codecs=opus') == 'Spoken priorities.'
+    assert transcriptions.calls == [{'model': 'gpt-4o-mini-transcribe',
+        'file': ('dictation.webm', b'audio', 'audio/webm')}]
+
+
+async def test_transcription_failure_is_sanitized(caplog):
+    class Broken(Provider):
+        async def transcribe(self, data, mime_type):
+            raise RuntimeError('PRIVATE audio provider response')
+    app = create_app(Verifier(), Broken())
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='http://test') as client:
+        response = await client.post('/api/chatkit', json=transcription(),
+                                     headers={'Authorization': 'Bearer alice'})
+    assert response.status_code == 503
+    assert 'PRIVATE' not in response.text + caplog.text
 
 
 async def test_limits_and_disabled_inputs(setup):
@@ -85,7 +140,7 @@ async def test_limits_and_disabled_inputs(setup):
     headers = {'Authorization': 'Bearer alice'}
     for text in ['', ' ' * 2, 'x' * 2001]:
         assert (await client.post('/api/chatkit', json=message(text), headers=headers)).status_code == 400
-    assert (await client.post('/api/chatkit', content='x' * 16385, headers=headers)).status_code == 413
+    assert (await client.post('/api/chatkit', content='x' * (MAX_REQUEST_BYTES + 1), headers=headers)).status_code == 413
     for field, value in [('attachments', ['file']), ('quoted_text', 'extra context'), ('inference_options', {'model': 'expensive-model'})]:
         body = message()
         body['params']['input'][field] = value
