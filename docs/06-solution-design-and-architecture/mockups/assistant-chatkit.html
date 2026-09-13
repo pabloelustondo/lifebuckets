@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LifeBuckets · Assistant mockup</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f5f5;color:#1f2937;font:16px system-ui,sans-serif}button,textarea{font:inherit}button{cursor:pointer}button:focus-visible,textarea:focus-visible{outline:3px solid #6b7280;outline-offset:3px}
+.review{background:#e5e7eb;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:#4b5563}.review button{border:0;background:none;text-decoration:underline;color:inherit}
+.app{max-width:1000px;margin:auto;height:calc(100dvh - 44px);min-height:560px;display:flex;flex-direction:column;padding:24px 32px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:24px;border-bottom:1px solid #ddd} .brand{font-size:23px;font-weight:600;letter-spacing:-.7px}.avatar{width:42px;height:42px;border-radius:50%;background:#d1d5db;display:grid;place-items:center}nav{display:flex;align-items:center;gap:18px}.back{color:#4b5563;text-decoration:none;font-size:14px}.pagehead{display:flex;justify-content:space-between;align-items:center;margin:22px 0}.pagehead h1{font-size:17px;margin:0;font-weight:600}.new{background:none;border:1px solid #d1d5db;border-radius:20px;padding:8px 14px;color:#4b5563;font-size:13px}
+.messages{overflow-y:auto;flex:1;padding:20px 0;scroll-behavior:smooth}.welcome{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:35px}.symbol{font-size:27px;color:#6b7280}.welcome h2{font-size:32px;font-weight:500;letter-spacing:-1px;margin:18px 0 10px}.welcome p{color:#6b7280;max-width:400px;line-height:1.7;margin:0 0 24px}.starter{background:white;border:1px solid #d1d5db;border-radius:12px;padding:13px 22px;color:#374151}
+.message{max-width:720px;margin:0 auto 30px;line-height:1.7}.user{display:table;margin-left:auto;margin-right:0;background:#e5e7eb;padding:12px 18px;border-radius:20px;max-width:80%}.assistant .label{font-size:12px;font-weight:600;letter-spacing:.03em;color:#6b7280;margin-bottom:8px}.assistant p{margin:0}
+form{background:white;border:1px solid #d1d5db;border-radius:24px;padding:14px 16px;box-shadow:0 4px 18px #00000005}textarea{border:0;resize:none;width:100%;height:54px;outline-offset:0;background:none;color:inherit;padding:4px;line-height:1.5}.composerbottom{display:flex;align-items:center;justify-content:space-between}.hint{font-size:12px;color:#6b7280}.send{border:0;border-radius:50%;background:#1f2937;color:white;width:38px;height:38px;font-size:24px}.foot{color:#6b7280;text-align:center;font-size:11px;margin:12px 0 0}.hidden{display:none}.map{padding:24px 0}.category{background:#e5e7eb;border-radius:15px;padding:20px;margin:12px 0;font-size:20px}
+@media(max-width:500px){.app{padding:20px 18px;height:calc(100dvh - 60px)}.review{padding:8px 16px;min-height:60px}.brand{font-size:21px}nav{gap:12px}.back{font-size:12px}.welcome h2{font-size:28px}.welcome p{font-size:14px}.pagehead{margin:18px 0}.foot{font-size:11px;line-height:1.5}.hint{font-size:11px}}
+</style></head>
+<body>
+<div class="review"><span>Design mockup · sample replies · no GPT connection</span><button id="example">Show conversation</button></div>
+<main class="app">
+<header><div class="brand">LifeBuckets</div><nav><a class="back" id="back" href="#map">← Life map</a><div class="avatar" aria-label="Account">P</div></nav></header>
+<div class="pagehead"><h1 id="title">Assistant</h1><button class="new" id="reset">New chat</button></div>
+<section class="messages" id="messages" aria-label="Conversation" aria-live="polite"></section>
+<form id="composer"><label class="hidden" for="message">Message the assistant</label><textarea id="message" placeholder="Message the assistant…" aria-label="Message the assistant"></textarea><div class="composerbottom"><span class="hint">Text conversation</span><button class="send" aria-label="Send message" type="submit">↑</button></div></form>
+<p class="foot" id="foot">A fresh conversation each visit. Your life map stays unchanged.</p>
+</main>
+<script>
+const messages=document.querySelector('#messages'),input=document.querySelector('#message');
+function reset(){document.querySelector('#composer').hidden=false;document.querySelector('#foot').hidden=false;document.querySelector('#title').textContent='Assistant';messages.innerHTML='<div class="welcome"><div class="symbol" aria-hidden="true">✳</div><h2>A little space to talk.</h2><p>Start with a hello, or ask a simple question.</p><button class="starter" id="hello">Say hello</button></div>';document.querySelector('#hello').onclick=()=>reply('Hi!');input.value=''}
+function reply(text){if(document.querySelector('.welcome'))messages.innerHTML='';const user=document.createElement('div');user.className='message user';user.textContent=text;messages.append(user);const answer=document.createElement('div');answer.className='message assistant';answer.innerHTML='<div class="label">LifeBuckets Assistant</div><p></p>';answer.querySelector('p').textContent=messages.children.length===1?'Hi! I’m your LifeBuckets assistant. What would you like to talk about today?':'This is a sample reply for the design review. In the working version, GPT will respond here.';messages.append(answer);input.value='';messages.scrollTop=messages.scrollHeight}
+document.querySelector('#composer').onsubmit=e=>{e.preventDefault();if(input.value.trim())reply(input.value.trim())};
+document.querySelector('#reset').onclick=reset;document.querySelector('#example').onclick=()=>{reset();reply('Hi!')};
+document.querySelector('#back').onclick=e=>{e.preventDefault();document.querySelector('#title').textContent='Life map · navigation preview';document.querySelector('#composer').hidden=true;document.querySelector('#foot').hidden=true;messages.innerHTML='<div class="map"><button class="starter" id="return">Open Assistant →</button><div class="category">A　Life</div><div class="category">B　Things</div><div class="category">C　Work</div></div>';document.querySelector('#return').onclick=reset};
+reset();
+</script></body></html>

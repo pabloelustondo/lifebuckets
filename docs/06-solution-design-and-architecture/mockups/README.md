@@ -9,3 +9,5 @@ Store design references with provenance and a clear proposed/approved designatio
 Mockups are part of detailed interaction design: develop them alongside the Sprint Plan,
 then review and commit them as design dependencies before finalizing implementation Tasks.
 Revise the Plan if detailed design changes its scope or acceptance criteria.
+
+- [Sprint 004 Assistant page](assistant-chatkit.md): interactive design mockup and phone/desktop images.

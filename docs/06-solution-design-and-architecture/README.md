@@ -10,6 +10,7 @@ Start with the [architecture template](../templates/architecture.md).
 ## Product drafts
 
 - [Architecture baseline](architecture.md)
+- [Long-term architecture](long-term-architecture.md): containers, scaling and collaborating agents
 - [Data contract proposal](data-model.md)
 
 These documents are proposed for review; no implementation or test result is implied.

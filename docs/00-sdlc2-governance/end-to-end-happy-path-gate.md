@@ -15,8 +15,9 @@ From the first vertical increment, provide one non-interactive command that runs
 - Independent review reproduces the run before recommending acceptance.
 - Missing, failed, or skipped checks remain explicit gaps.
 
-## Current inventory
+## Local inventory and stable promotion
 
-No application or runnable end-to-end command exists yet.
-The first implementation sprint must establish and document this gate in Build and Test.
-Documentation-only setup does not constitute a passing application gate.
+The local gate is npm run test:e2e; record the exact revision and current result each run.
+Run typecheck, unit and Firestore rules checks as required by the affected sprint.
+Local/emulated checks do not replace real-user testing for promotion to main.
+Follow the [main promotion gate](branch-lifecycle.md) for hosted/device evidence and human approval.

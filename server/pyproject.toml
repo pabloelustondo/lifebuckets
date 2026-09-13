@@ -1,0 +1,19 @@
+[project]
+name = "lifebuckets-chat"
+version = "0.1.0"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+  "openai-chatkit==1.6.5",
+  "openai==3.13.0",
+  "fastapi==0.141.1",
+  "uvicorn==0.52.4",
+  "firebase-admin==7.5.0",
+  "python-dotenv==1.2.3",
+]
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1", "pytest-asyncio==1.4.0", "httpx==0.28.1"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = [".."]

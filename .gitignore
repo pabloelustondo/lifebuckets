@@ -10,3 +10,7 @@ test-results/
 .DS_Store
 
 .firebase/
+
+server/.venv/
+__pycache__/
+.pytest_cache/

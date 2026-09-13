@@ -2,6 +2,8 @@
 
 Translate intent and architecture into bounded increments with dependencies, risks, and decision gates.
 
+Before drafting a new Sprint Plan, pass the [previous-sprint gate](../00-sdlc2-governance/branch-lifecycle.md).
+
 ## Artifacts
 
 Sprint Plan followed by separate Sprint Plan Tasks. See the [sprint registry](sprints/README.md).
