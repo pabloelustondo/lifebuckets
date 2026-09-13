@@ -1,37 +1,35 @@
 # Sprint 004 — Review Handoff
 
-Status: HOSTED CANDIDATE IMPLEMENTED; NOT DEPLOYED OR ACCEPTED IN PRODUCTION.
+Status: ACCEPTED FOR DEV INTEGRATION; hosted GPT and user journey passed.
 Reviewer: implementing agent; no independent technical review or reviewer initials claimed.
-Baseline: implementation aab5081 and approved hosted Tasks 3991f2c; date 2026-09-12.
-Pablo requested deployment; this handoff covers the resulting uncommitted release candidate.
+Release commit: 0d4ccfa86c8dd47f0f9c74129ee8e8f5e26f10c9; date 2026-09-12.
+Pablo reviewed/committed the candidate and authorized deployment and the exact server-key transfer.
 
-## Review scope and evidence
+## Validation before publication
 
-Local React ChatKit/Python GPT behavior was previously reviewed with real replies.
-The hosted candidate adds production owner authorization, container packaging and explicit release tooling.
-[Hosted validation](../09-engineering/sprint-004/hosted-validation.md) records checks, screenshots and limitations.
-Node 24 build/typecheck and 18 app unit tests pass; all 30 Python checks pass.
-Three hosted-configuration tests and one real-widget browser recovery test pass without paid GPT calls.
-The cloud upload excludes credentials/fixtures; the public build does not contain the authorized server key.
-The container base manifest/digest is verified, but the final container has not been built or run.
+[Hosted validation](../09-engineering/sprint-004/hosted-validation.md) records the candidate checks and then-open prerequisites.
+Node 24 build/typecheck and 18 app unit tests passed; all 30 Python checks passed.
+Three hosted-configuration tests and a real-widget recovery test passed without paid GPT calls.
+The cloud upload excluded credentials/fixtures, and the local public-build scan found no server key.
+The candidate added production owner authorization, container packaging and explicit release tooling.
 
-## Remaining publication prerequisites
+## Hosted release
 
-1. Pablo reviews and commits these release changes, preserving the exact-candidate gate.
-2. Billing is disabled for lifebuckets-bd43d; Pablo must enable it with the intended account.
-3. Register the exact production ChatKit domain and configure the public domain key.
-4. Verify provisioning authority, then build/run the container and validate cloud permissions and secret binding.
-5. Publish backend before Hosting; record revision/digest and prior/current Hosting releases.
-6. Verify hosted owner chat, proxy streaming, map/local edits and physical phone keyboard.
+[Deployment evidence](../11-operational-reality/sprint-004-hosted-deployment.md) records revision, image and Hosting identities.
+Billing was enabled by Pablo; cloud resources and secret binding were provisioned in the declared project.
+Cloud Build succeeded; the Python container is running under the dedicated runtime identity.
+Backend and proxied Hosting health passed; anonymous chat requests were rejected.
+The production domain was registered for ChatKit, and Hosting was published with its public domain key.
+Real GPT greeting and follow-up passed through the live Assistant under the existing owner session.
+Map return worked; 18 existing local color changes remained visible and unsent.
 
-These are remaining release prerequisites; a local build does not prove hosted behavior.
-The [runbook](../09-engineering/sprint-004/hosted-runbook.md) provides separate preflight/provision/backend/hosting steps.
-The [hosted Plan](../07-planning/sprints/sprint-004-chatkit-poc/05-hosted-deployment-plan.md) and Tasks retain authority boundaries.
+## Acceptance and handoff
 
-## Handoff
-
-No cloud mutation, paid GPT test, account creation, rules deployment or data migration occurred in this candidate work.
-Pablo's commit approves the exact review; the agent never commits, pushes or merges.
-Suggested commit message: `Prepare Sprint 004 owner-only Cloud Run deployment`.
-After prerequisites, existing deployment authorization covers the declared resources and release checks.
-No main promotion, previous-branch cleanup or sprint closure is implied by implementation or deployment.
+Pablo exercised the hosted Assistant, confirmed real GPT responses and reported that all works well.
+He explicitly requested the Sprint 004 merge into dev and branch closure on 2026-09-12.
+Temporary chats can disappear on refresh/restart; the deployed UI explains recovery with New chat.
+Existing tabs may need to close and reopen to activate the new application shell; do not clear personal site data.
+The [runbook](../09-engineering/sprint-004/hosted-runbook.md) retains release and rollback steps.
+Review and commit this post-release evidence separately; no reviewer initials are entered.
+Dev integration and local/remote branch cleanup remain distinct human-governed steps.
+No main promotion, rules deployment or personal data migration occurred.
