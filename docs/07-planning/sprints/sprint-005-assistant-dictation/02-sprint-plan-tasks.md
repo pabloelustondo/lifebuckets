@@ -1,34 +1,44 @@
-# Sprint 005 — Implementation Tasks
+# Sprint 005 — Corrected Implementation Tasks
 
-Status: ON HOLD; discovery proved the custom backend requires a transcription contract outside this scope.
-Approved Plan commit: 90d3cb8. Development baseline: dev at 90d3cb8.
-Authorization context: Pablo requested implementation after committing the Plan; Tasks approval remains a separate gate.
+Status: PROPOSED TASKS; no coding authority until Pablo reviews and commits this corrected file.
+Approved corrected Plan: 8f95a35. Development baseline: dev at 8f95a35.
+Authorization context: Pablo approved the correction and requested a new implementation branch.
 Read the [Plan](01-sprint-plan.md) and [visual specification](../../../06-solution-design-and-architecture/mockups/assistant-dictation.md).
 
-## T1 — Assistant dictation UI
+## T1 — Transcription provider
 
-Dependency: approved visual specification. Component: Assistant UI.
+Component: provider adapter. Own only `server/provider.py`.
+Add simulated deterministic transcription and bounded OpenAI audio transcription behind one safe provider method.
+Return text only; apply timeout/cancellation and sanitize provider errors without logging audio or transcript.
+Verify S005-AC03, AC04 and AC06 with isolated provider tests; stop if a new credential or dependency is required.
+
+## T2 — Authenticated transcription transport
+
+Dependency: T1. Component: ChatKit backend transport. Own only `server/app.py`.
+Implement `AssistantServer.transcribe()` and admit only authenticated `input.transcribe` protocol requests.
+Validate supported MIME types and a bounded decoded payload before provider work; never persist or log content.
+Keep text-message limits and owner/rate protections intact; return sanitized recoverable failures.
+Verify S005-AC03, AC04 and AC06 with backend request tests.
+
+## T3 — Dictation composer
+
+Dependency: T2. Component: Assistant UI.
 Own only `app/features/assistant/AssistantChat.tsx` and `app/features/assistant/assistant.css`.
-Enable ChatKit composer dictation and preserve the established authenticated chat boundary.
-Expose usable idle/listening/transcription/denial or fallback behavior supported by ChatKit.
-Keep dictated text editable and require explicit Send; typed chat must always remain usable.
-Verify S005-AC01 through AC06 with typecheck, build and focused component/browser checks.
-Stop if ChatKit cannot satisfy the approved interaction without a new audio/backend contract.
+Enable ChatKit dictation while preserving typed input, explicit Send, offline behavior and existing navigation.
+Use ChatKit's microphone/listening/transcribing states; retain typed fallback when denied or unsupported.
+Verify S005-AC01 through AC05 against the approved phone and desktop mockups.
 
-## T2 — Assistant regression and device proof
+## T4 — Integrated proof
 
-Dependency: T1. Component: Assistant verification.
-Own only `e2e/chatkit/*` and new `docs/09-engineering/sprint-005/*` evidence.
-Extend deterministic UI checks for enabled dictation and typed fallback without faking real capture success.
-Run app unit/browser regressions and Python server tests; compare phone/desktop screenshots with the mockup.
-Perform a deliberate real-device microphone check for permission, speech-to-text, editing and explicit send.
-Verify S005-AC01 through AC07; record browser/device versions, limitations and exact results.
-Stop on credential exposure, automatic sending, loss of typed input, or unexplained regression.
+Dependencies: T1–T3. Component: Assistant verification.
+Own only `server/tests/*`, `e2e/chatkit/*` and new `docs/09-engineering/sprint-005/*` evidence.
+Test auth, MIME/size bounds, simulated transcription and sanitized failures without real audio retention.
+Run typecheck, build, unit, Python and Assistant browser regressions; record any blocked unrelated gate.
+Perform a deliberate real-device microphone check for capture, editable text and explicit send.
+Verify S005-AC01 through AC07 and record browser/device versions and limitations.
 
-## Integration and boundaries
+## Branch and stop boundaries
 
-Order is T1 then T2; each task changes exactly one approved component.
-No server/provider/store, Firebase data, deployment configuration or LifeBucket synchronization change is allowed.
-No paid/provider call or production deployment is implied; deployment requires separate concrete authorization.
-Any custom recorder, transcription endpoint, new dependency or contract change returns to Plan review.
-After Pablo commits these Tasks and mockups, create `codex/sprint-005-assistant-dictation` from current verified dev.
+After this file is committed, recreate `codex/sprint-005-assistant-dictation` from verified current dev.
+Any audio persistence, custom recorder, spoken reply, new dependency or expanded data access returns to Plan review.
+No paid live check or production deployment is implied; each requires separate concrete authorization.
