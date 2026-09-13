@@ -1,7 +1,7 @@
 # Sprint 005 — Implementation Validation
 
-Status: IMPLEMENTED LOCALLY; human microphone acceptance and deployment pending.
-Date: 2026-09-12. Branch: `codex/sprint-005-assistant-dictation` from approved dev `48ecb80`.
+Status: IMPLEMENTED AND LIVE-PROVIDER VALIDATED LOCALLY; real-device acceptance and deployment pending.
+Date: 2026-09-13. Branch: `codex/sprint-005-assistant-dictation` from approved dev `48ecb80`.
 
 ## Delivered behavior
 
@@ -24,12 +24,13 @@ Typed chat, explicit Send, owner authorization and existing conversation behavio
 ## Visual and acceptance evidence
 
 [Actual 390px Assistant](assistant-phone-dictation.png) shows the ChatKit microphone beside the composer.
+An authorized desktop microphone recording was transcribed by `gpt-4o-mini-transcribe` and appeared as editable Spanish text in the composer.
+The recorded audio and exact transcript were not retained in repository evidence.
 The hosted widget button displays a microphone icon but exposes no accessible name in ChatKit 1.6.1.
 That iframe markup is cross-origin and cannot be repaired by LifeBuckets CSS or React properties.
 Record this upstream accessibility limitation during review rather than claiming S005-AC01 fully satisfied.
 
 ## Remaining checks
 
-Pablo performs the real-device microphone permission, capture, transcription editing and explicit-send check.
-A real OpenAI audio request was not sent during local automated validation; simulated routing proves the contract only.
-Production deployment, paid live transcription and hosted acceptance remain separate authorized steps.
+Pablo performs the phone microphone permission, capture, transcription editing and explicit-send check.
+Production deployment and hosted acceptance remain separate authorized steps.
